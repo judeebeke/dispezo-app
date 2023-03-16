@@ -3,7 +3,7 @@ import SignUp from "./SignUp";
 const Pages = () => {
 
     return (
-    <section className="w-screen h-screen bg-mildWhite flex justify-center">
+    <section className="w-screen h-screen app-container flex justify-center">
             <SignUp />
         </section>
     )

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,500;0,600;1,400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +8,7 @@
 }
 
 html {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-size: 16.2px;
 }
 
@@ -19,7 +19,7 @@ body {
 }
 
 .app-container {
-  background-color: #ea2562;
+  background-image: linear-gradient(#f5cbd8, #fce8ee);
 }
 
 .btn {
