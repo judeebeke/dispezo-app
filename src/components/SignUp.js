@@ -17,11 +17,11 @@ const SignUp = () => {
           className="free-design"
         />
       </div>
-      <header className="mb-20">
+      <header className="mb-16">
         <h2 className="text-2xl text-main font-semibold">Dispezo Gen-Z</h2>
       </header>
       {!loggin ? (
-        <div className="flex justify-between sm:flex-col sm:gap-y-4 md:flex-row md:gap-x-4">
+        <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-4">
           <Button
             text="Create Room"
             onSignIn={logginHandler}
