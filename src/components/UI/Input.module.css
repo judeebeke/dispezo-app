@@ -1,18 +1,28 @@
 .input {
   display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 0.7rem;
 }
 
 .input label {
   font-weight: bold;
-  margin-right: 1rem;
 }
 
 .input input {
-  width: 3rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  /* width: 3rem; */
+  min-width: 13rem;
+  max-width: 23rem;
+  height: 2.3rem;
+  border-radius: 10px;
   font: inherit;
   padding-left: 0.5rem;
+  outline: #f097b3;
+  border: 1.5px solid#f097b3;
+}
+
+.input input:focus {
+  outline: #ee3c74;
+  border: 2px solid#ee3c74;
 }

@@ -16,6 +16,7 @@ body {
   margin: 0;
   padding:0;
   background-color: #3f3f3f;
+  overflow: hidden;
 }
 
 .app-container {
@@ -33,4 +34,23 @@ body {
   align-items: center;
   justify-content: center;
   color: #fff;
+}
+
+.free-design-cont {
+  position: absolute;
+  top: -30px;
+  right: 0px;
+  transform: rotate(25deg);
+}
+
+.free-design {
+  width: 8rem;
+  height: 10rem;
+  transform: scale(1.3);
+}
+
+@media (max-width: 500px) {
+  .free-design-cont, .free-design {
+    display: none;
+  }
 }

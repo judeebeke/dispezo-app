@@ -1,19 +1,43 @@
-import React from 'react';
-import Button from './UI/Button';
+import React, { useContext } from "react";
+import Button from "./UI/Button";
+import CreateRoom from "./CreateRoom";
+import CartContext from "../store/cart-context";
+import { btnStyles } from "../style";
+import dispezoImage from '../assets/assest-image.png';
 
 const SignUp = () => {
-    const btnStyles = `bg-main text-white hover:bg-lightMain`
+  const { loggin, logginHandler } = useContext(CartContext);
+
   return (
-    <section className='flex flex-col items-center mt-24 gap-y-10'>
-        <header className="mb-44">
-            <h2 className='text-2xl text-main font-semibold'>Dispezo Gen-Z</h2>
-        </header>
-        <div className='flex justify-between gap-x-4'>
-            <Button text="Create Room" styles='bg-main text-white transition-all ease-in hover:bg-lightMain' />
-            <Button text="Join Room" styles={btnStyles} />
+    <section className="flex flex-col items-center mt-20 gap-y-10">
+      <div className="free-design-cont">
+        <img
+          src={dispezoImage}
+          alt="Dispezo UI"
+          className="free-design"
+        />
+      </div>
+      <header className="mb-20">
+        <h2 className="text-2xl text-main font-semibold">Dispezo Gen-Z</h2>
+      </header>
+      {!loggin ? (
+        <div className="flex justify-between sm:flex-col sm:gap-y-4 md:flex-row md:gap-x-4">
+          <Button
+            text="Create Room"
+            onSignIn={logginHandler}
+            styles={btnStyles}
+          />
+          <Button
+            text="Join Room"
+            onSignIn={logginHandler}
+            styles={btnStyles}
+          />
         </div>
+      ) : (
+        <CreateRoom />
+      )}
     </section>
-  )
-}
+  );
+};
 
 export default SignUp;

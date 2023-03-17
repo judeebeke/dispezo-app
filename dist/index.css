@@ -568,12 +568,16 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.mb-44{
-  margin-bottom: 11rem;
+.mb-20{
+  margin-bottom: 5rem;
 }
 
 .mt-24{
   margin-top: 6rem;
+}
+
+.mt-8{
+  margin-top: 2rem;
 }
 
 .flex{
@@ -618,6 +622,20 @@ video {
   background-color: rgb(234 37 98 / var(--tw-bg-opacity));
 }
 
+.bg-mildWhite{
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 248 248 / var(--tw-bg-opacity));
+}
+
+.p-6{
+  padding: 1.5rem;
+}
+
+.px-10{
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
 .text-2xl{
   font-size: 1.5rem;
   line-height: 2rem;
@@ -630,11 +648,6 @@ video {
 .text-main{
   --tw-text-opacity: 1;
   color: rgb(234 37 98 / var(--tw-text-opacity));
-}
-
-.filter{
-  -webkit-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-          filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .transition-all{
@@ -677,6 +690,21 @@ body {
   align-items: center;
   justify-content: center;
   color: #fff;
+}
+
+.free-design-cont {
+  position: absolute;
+  top: -30px;
+  right: -10px;
+  -webkit-transform: rotate(32deg);
+          transform: rotate(32deg);
+  -webkit-transform: scale(100%);
+          transform: scale(100%);
+}
+
+.free-design {
+  width: 8rem;
+  height: 10rem;
 }
 
 .hover\:bg-lightMain:hover{
