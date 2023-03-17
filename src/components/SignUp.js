@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import Button from "./UI/Button";
 import CreateRoom from "./CreateRoom";
 import CartContext from "../store/cart-context";
-import { btnStyles } from "../style";
 import dispezoImage from '../assets/assest-image.png';
+import { btnStyles } from "../style";
 
 const SignUp = () => {
   const { loggin, logginHandler } = useContext(CartContext);
