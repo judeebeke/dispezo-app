@@ -16,7 +16,7 @@ body {
   margin: 0;
   padding:0;
   background-color: #3f3f3f;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .app-container {
