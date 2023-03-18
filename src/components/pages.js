@@ -1,6 +1,6 @@
 import { useContext } from'react';
 import SignUp from "./SignUp";
-import CartContext from "../store/cart-context";
+import CartContext from "../store/cart-context"
 import ChatRoom from './chats/ChatRoom';
 
 const Pages = () => {
