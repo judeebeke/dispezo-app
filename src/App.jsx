@@ -1,5 +1,5 @@
 import React from 'react';
-import Pages from '../src/components/Pages';
+import Pages from './components/Pages';
 import ContextProvider from './store/CartProvider';
 
 
