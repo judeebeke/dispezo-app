@@ -10,17 +10,19 @@
 html {
   font-family: 'Raleway', sans-serif;
   font-size: 16.2px;
-  overflow: hidden;
 }
 
 body {
   margin: 0;
   padding:0;
   background-color: #3f3f3f;
+  overflow: hidden;
 }
 
 .app-container {
   background-image: linear-gradient(#f5cbd8, #fce8ee);
+  width: 100vw;
+  height: 100vh;
 }
 
 .btn {
@@ -55,6 +57,6 @@ body {
     right: -25px;
   }
   .free-design {
-    transform: scale(0.6);
+    transform: scale(0.8);
   }
 }
