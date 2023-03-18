@@ -9,14 +9,12 @@ const SignUp = () => {
   const { loggin, logginHandler } = useContext(CartContext);
 
   return (
-    <section className="flex flex-col items-center mt-20 gap-y-10">
-      <div className="free-design-cont">
+    <section className="flex flex-col items-center free-design-cont mt-20 gap-y-10">
         <img
           src={dispezoImage}
           alt="Dispezo UI"
           className="free-design"
         />
-      </div>
       <header className="mb-16">
         <h2 className="text-2xl text-main font-semibold">Dispezo Gen-Z</h2>
       </header>
