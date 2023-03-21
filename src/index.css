@@ -54,6 +54,8 @@ body {
   right: -20px;
 }
 
+
+
 @media (max-width: 500px) {
   .free-design {
     transform: rotate(25deg) scale(0.8);

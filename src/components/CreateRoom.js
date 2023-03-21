@@ -10,7 +10,7 @@ const CreateRoom = () => {
     const createRoomHandler = (event) => {
       event.preventDefault()
 
-      setCreateRoom(prev => !prev)
+      setCreateRoom(true)
     }
 
   return (
@@ -30,7 +30,7 @@ const CreateRoom = () => {
         inputFor="room-passcode"
         input={{
           id: "room-passcode",
-          type: "text",
+          type: "password",
           name: "username",
         }}
       />
@@ -39,7 +39,7 @@ const CreateRoom = () => {
         inputFor="con-room-passcode"
         input={{
           id: "con-room-passcode",
-          type: "text",
+          type: "password",
           name: "username",
         }}
       />

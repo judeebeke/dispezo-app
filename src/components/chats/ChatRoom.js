@@ -4,11 +4,13 @@ import Button from '../UI/Button';
 import {btnStyles} from '../../style'
 
 const ChatRoom = () => {
-    const {logginHandler, setCreateRoom} = useContext(CartContext);
+    const {logginHandler, setCreateRoom, setJoinRoom, setSignUpPage} = useContext(CartContext);
 
     const logOutHandler = () => {
-        setCreateRoom(prev => !prev)
+        setCreateRoom(false)
         logginHandler(false)
+        setJoinRoom(false)
+        setSignUpPage(false)
     }
 
     return(
