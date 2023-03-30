@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from "react";
+import { useContext, useState } from "react";
 import CartContext from "../../store/cart-context";
 import Button from "../UI/Button";
 import { btnStyles } from "../../style";
@@ -9,19 +9,9 @@ const ChatRoom = () => {
     useContext(CartContext);
    const [getChat, setGetChat] = useState('');
    const [getChats, setGetChats] = useState([]);
-   const [inputError, setInputError] = useState(false)
 
-    const chatsInputRef = useRef();
-
-    const chatsInputHandler = () => {
-        if(chatsInputRef.current.value.trim() === '') {
-          return setInputError(true)
-        }
-
-        if(chatsInputRef.current.value.trim() !== '') {
-          setGetChat(chatsInputRef.current.value)
-          setInputError(false)
-        }
+    const chatsInputHandler = (event) => {
+          setGetChat(event.target.value)
     }
 
     const chatsInputFormHandler = (event) => {
@@ -34,6 +24,7 @@ const ChatRoom = () => {
             // if()
             return [...prev, {message: getChat, id: Math.random().toFixed(3)}]
         })
+
         setGetChat('')
         }       
     }
@@ -77,7 +68,6 @@ const ChatRoom = () => {
       <form className="w-full h-10 flex justify-start shadow-md chat-form" onSubmit={chatsInputFormHandler}>
       <input
           type="text"
-          ref={chatsInputRef}
           name="chat-input"
           onChange={chatsInputHandler}
           placeholder='Type your message here...'

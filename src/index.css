@@ -65,7 +65,7 @@ p {
     padding-right: 2.8rem;
     padding-top: 0.3rem;
     bottom: 0.3rem;
-    z-index: 99;
+    z-index: 80;
     border-left: 1px solid transparent;
   }
 
