@@ -9,17 +9,28 @@ const ChatRoom = () => {
     useContext(CartContext);
    const [getChat, setGetChat] = useState('');
    const [getChats, setGetChats] = useState([]);
+   const [inputError, setInputError] = useState(null)
 //    const [isSubmitted, setIsSubmitted] = useState(null);
 
     const chatsInputRef = useRef();
 
     const chatsInputHandler = () => {
-        setGetChat(chatsInputRef.current.value)
+        if(chatsInputRef.current.value.trim() === '') {
+          return setInputError('error')
+        }
+
+        if(chatsInputRef.current.value.trim() !== '') {
+          setGetChat(chatsInputRef.current.value)
+          setInputError(null)
+        }
     }
 
     const chatsInputFormHandler = (event) => {
         event.preventDefault()
 
+        if(inputError === null) {
+          return
+        }
         setGetChats(prev => {
             return [...prev, {message: getChat, id: Math.random().toFixed(3)}]
         })
@@ -48,22 +59,22 @@ const ChatRoom = () => {
         <div className="profile-thumbnail">{/* <img src='' alt='' /> */}</div>
         <Button styles={btnStyles} text="Logout" onSignIn={logOutHandler} />
       </nav>
-      <div className="flex flex-col justify-start w-full h-5/6 text-mildWhite px-4 mt-2 mb-2 overflow-y-auto chats-view">
-        <p className="py-2 mb-2 bg-main px-2 w-max border-0 rounded-xl">Hi Ebeke</p>
-        <p className="py-2 px-2 mb-2 bg-main w-max border-0 rounded-xl">
+      <div className="flex flex-col justify-start w-full h-4/5 text-mildWhite px-4 mt-2 mb-2 overflow-y-auto chats-view">
+        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl">Hi Ebeke</p>
+        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl">
           Hi i'm Jude, I am here to help you connect privately
         </p>
-        <p className="py-2 px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl">Hi Jude</p>
-        <p className="py-2 px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl">
+        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl">Hi Jude</p>
+        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl">
           This is just a dummy chat
         </p>
-        <p className="py-2 mb-2 bg-main px-2 w-max border-0 rounded-xl">Hi Ebeke</p>
-        <p className="py-2 px-2 mb-2 bg-main w-max border-0 rounded-xl">
+        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl">Hi Ebeke</p>
+        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl">
           Hi i'm Jude, I am here to help you connect privately
         </p>
         {chatsContent}
       </div>
-      <form className="w-full h-10 flex justify-start" onSubmit={chatsInputFormHandler}>
+      <form className="w-full h-10 flex justify-start shadow-md chat-form" onSubmit={chatsInputFormHandler}>
       <input
           type="text"
           ref={chatsInputRef}
@@ -73,7 +84,9 @@ const ChatRoom = () => {
           className="w-full h-10 bg-mildWhite focus:outline-none px-4"
           value={getChat}
       />
-      <button  className="chats-btn"><BiSend /></button>
+      <div className='w-6 h-10 bg-mildWhite chats-btn-cont'>
+          <button  className="chats-btn"><BiSend /></button>
+      </div>
       </form>
     </main>
   );
