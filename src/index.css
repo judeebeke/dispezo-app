@@ -61,23 +61,26 @@ p {
 }
 
 .chat-input {
-  position: absolute;
-  left: calc(4/100%);
-  bottom: 0;
+  position: relative;
+
+  /* left: calc(4/100%);
+  bottom: 0; */
 }
+
 /* 
 .chat-input {
   position: absolute;
   left: calc(4/100%);
   bottom: 0;
 } */
+
   .chats-btn-cont {
-    position: sticky;
+    /* position: sticky; */
     padding-right: 2.8rem;
     padding-top: 0.3rem;
     bottom: 0.3rem;
     z-index: 99;
-    border-left: 1px solid#f8f8f8;
+    border-left: 1px solid transparent;
   }
 
 .chats-btn {
