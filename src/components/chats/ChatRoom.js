@@ -9,33 +9,33 @@ const ChatRoom = () => {
     useContext(CartContext);
    const [getChat, setGetChat] = useState('');
    const [getChats, setGetChats] = useState([]);
-   const [inputError, setInputError] = useState(null)
-//    const [isSubmitted, setIsSubmitted] = useState(null);
+   const [inputError, setInputError] = useState(false)
 
     const chatsInputRef = useRef();
 
     const chatsInputHandler = () => {
         if(chatsInputRef.current.value.trim() === '') {
-          return setInputError('error')
+          return setInputError(true)
         }
 
         if(chatsInputRef.current.value.trim() !== '') {
           setGetChat(chatsInputRef.current.value)
-          setInputError(null)
+          setInputError(false)
         }
     }
 
     const chatsInputFormHandler = (event) => {
         event.preventDefault()
 
-        if(inputError === null) {
-          return
-        }
-        setGetChats(prev => {
+        if(getChat === '') {
+          return;
+        } else {
+          setGetChats(prev => {
+            // if()
             return [...prev, {message: getChat, id: Math.random().toFixed(3)}]
         })
-
         setGetChat('')
+        }       
     }
 
   const logOutHandler = () => {
@@ -85,7 +85,7 @@ const ChatRoom = () => {
           value={getChat}
       />
       <div className='w-6 h-10 bg-mildWhite chats-btn-cont'>
-          <button  className="chats-btn"><BiSend /></button>
+          <button type="submit" className="chats-btn"><BiSend /></button>
       </div>
       </form>
     </main>
