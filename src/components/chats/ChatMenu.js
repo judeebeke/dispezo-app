@@ -10,20 +10,21 @@ const ChatMenu = ({deviceStyle}) => {
 
     const settingsBtnStyle = 'bg-transparent font-bold black-text hover-black transition-all ease-in hover:font-normal hover:shadow-md hover:bg-lightMain';
 
-    const logOutHandler = () => {
-        setCreateRoom(false);
-        logginHandler(false);
-        setJoinRoom(false);
-        setSignUpPage(false);
-      };
-
-      const menuHandle = () => {
+    const menuHandle = () => {
         menuHandler(prev => {
             return ( !prev )
         })
       };
     
-  return (
+    const logOutHandler = () => {
+        setCreateRoom(false);
+        logginHandler(false);
+        setJoinRoom(false);
+        setSignUpPage(false);
+        menuHandle()
+      };
+
+    return (
     <section className={deviceStyle}>
        <button className="absolute top-3 right-4 md:hidden" onClick={menuHandle}>
           <IconContext.Provider value={{ className: "menu-icon" }}>
