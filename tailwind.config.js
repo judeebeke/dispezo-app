@@ -10,6 +10,8 @@ module.exports = {
       main: '#ea2562',
       lightMain: '#f13b75',
       mildWhite: '#f8f8f8',
+      blackis: "#111010",
+      opac: 'transparent', 
     }
   },
   plugins: [],
