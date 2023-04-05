@@ -55,12 +55,6 @@ p {
   height: 40px; 
 }
 
-.chat-input {
-  position: relative;
-  /* left: calc(4/100%);
-  bottom: 0; */
-}
-
   .chats-btn-cont {
     padding-right: 2.8rem;
     padding-top: 0.3rem;

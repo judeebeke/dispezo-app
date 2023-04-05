@@ -86,7 +86,7 @@ const ChatRoom = () => {
         {chatsContent}
       </div>
       <form
-        className="w-full h-10 flex justify-start shadow-md chat-form"
+        className="w-full h-10 flex justify-start shadow-md"
         onSubmit={chatsInputFormHandler}
       >
         <input

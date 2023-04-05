@@ -7,7 +7,7 @@ const CartProvider = (props) => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [isCreateRoom, setIsCreateRoom] = useState(false);
     const [isJoinRoom, setIsJoinRoom] = useState(false);
-    const [isActivateMenu, setIsActivateMenu] = useState(true);
+    const [isActivateMenu, setIsActivateMenu] = useState(false);
     const [time, setTime] = useState('')
     
     const setIsLoggedInHandler = (bool) => {
