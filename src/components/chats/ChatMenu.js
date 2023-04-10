@@ -25,7 +25,7 @@ const ChatMenu = ({deviceStyle}) => {
       };
 
     return (
-    <section className={deviceStyle}>
+    <section className={`${deviceStyle} menuAnimate`}>
        <button className="absolute top-3 right-4 md:hidden" onClick={menuHandle}>
           <IconContext.Provider value={{ className: "menu-icon" }}>
             <AiOutlineClose />
