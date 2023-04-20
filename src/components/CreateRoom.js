@@ -1,16 +1,45 @@
-import {useContext} from 'react'
+import {useContext} from 'react';
+import useInputHook from './customHooks/useInputHook';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from '../config/firebase-config';
+
 import Button from "./UI/Button";
 import Input from "./UI/Input";
 import { btnStyles } from "../style";
 import CartContext from '../store/cart-context';
 
 const CreateRoom = () => {
-    const {setCreateRoom} = useContext(CartContext)
+  const { userInput: roomNameInput, userInputHandler: roomNameInputHandle } =
+  useInputHook((value) => value.length > 0);
+const { userInput: passcodeInput, userInputHandler: passcodeInputHandle } =
+  useInputHook((value) => value.length > 8);
 
-    const createRoomHandler = (event) => {
+    const {setCreateRoom, getRoomName,  isLoading, loadingHandle} = useContext(CartContext)
+
+    const userRoomsRef = collection(db, "rooms")
+
+    const createRoomHandler = async (event) => {
+      loadingHandle(true);
       event.preventDefault()
 
+      if (!roomNameInput && !passcodeInput) {
+        loadingHandle(false);
+        return;
+      }
+      await addDoc(userRoomsRef, {
+        createdAt: serverTimestamp(),
+        roomId: `${roomNameInput}123`,
+        roomName: roomNameInput,
+        roomPasscode: passcodeInput,
+        roomTrackingId: auth.currentUser.uid,
+      })
+
       setCreateRoom(true)
+      getRoomName(roomNameInput)
+      console.log('sucessfully created room')
+      roomNameInputHandle('')
+      passcodeInputHandle('')
+      loadingHandle(false);
     }
 
   return (
@@ -23,6 +52,9 @@ const CreateRoom = () => {
           id: "room-name",
           type: "text",
           name: "username",
+          value: roomNameInput,
+            onChange: (e) => {
+              roomNameInputHandle(e.target.value);}
         }}
       />
       <Input
@@ -32,6 +64,10 @@ const CreateRoom = () => {
           id: "room-passcode",
           type: "password",
           name: "username",
+          value: passcodeInput,
+          onChange: (e) => {
+            passcodeInputHandle(e.target.value);}
+        
         }}
       />
       <Input
@@ -41,9 +77,13 @@ const CreateRoom = () => {
           id: "con-room-passcode",
           type: "password",
           name: "username",
+          value: passcodeInput,
+          onChange: (e) => {
+            passcodeInputHandle(e.target.value);}
         }}
       />
-      <Button text="Create Room" styles={`${btnStyles} mt-8`} />
+      <Button text="Create Room" type="submit" styles={`${btnStyles} mt-8`} />
+      {isLoading && <h2 className="text-main text-center mt-3">Looding...</h2>}
     </form>
   );
 };

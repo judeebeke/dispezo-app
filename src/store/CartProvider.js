@@ -2,6 +2,9 @@ import {useState, useCallback} from 'react';
 
 import CartContext from './cart-context';
 
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 const CartProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isSignUp, setIsSignUp] = useState(false);
@@ -9,6 +12,20 @@ const CartProvider = (props) => {
     const [isJoinRoom, setIsJoinRoom] = useState(false);
     const [isActivateMenu, setIsActivateMenu] = useState(false);
     const [time, setTime] = useState('')
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentRoomName, setCurrentRoomName] = useState(false);
+
+
+    let cookie = cookies.get("auth-token");
+    const [isAuth, setIsAuth] = useState(cookie);
+
+    const setAuthTokenHandler = (val) => {
+        setIsAuth(val)
+    }
+
+    const getRoomNameHandler = (val) => {
+        setCurrentRoomName(val)
+    }
     
     const setIsLoggedInHandler = (bool) => {
         setIsLoggedIn(bool)
@@ -26,9 +43,9 @@ const CartProvider = (props) => {
         setIsJoinRoom(bool)
     }
 
-    // const activateMenuHandler = (bool) => {
-    //     setIsActivateMenu(bool)
-    // }
+    const activateMenuHandler = (bool) => {
+        setIsLoading(bool)
+    }
 
 const currentTime = useCallback(() => {
   let date = new Date(); 
@@ -68,6 +85,12 @@ const currentTime = useCallback(() => {
         timeHandler: currentTime,
         isMenu: isActivateMenu,
         menuHandler: setIsActivateMenu,
+        isLoading,
+        loadingHandle: activateMenuHandler,
+        isAuth,
+        setAuth: setAuthTokenHandler,
+        currentRoomName,
+        getRoomName: getRoomNameHandler,
     }
 
     return (
