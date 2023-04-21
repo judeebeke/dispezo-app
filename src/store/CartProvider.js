@@ -14,10 +14,14 @@ const CartProvider = (props) => {
     const [time, setTime] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [currentRoomName, setCurrentRoomName] = useState(false);
-
+    const [isSignUpForm, setIsSignUpForm] = useState(true);
 
     let cookie = cookies.get("auth-token");
     const [isAuth, setIsAuth] = useState(cookie);
+
+    const IsSignUpFormHandler = (val) => {
+        setIsSignUpForm(val)
+    }
 
     const setAuthTokenHandler = (val) => {
         setIsAuth(val)
@@ -91,6 +95,8 @@ const currentTime = useCallback(() => {
         setAuth: setAuthTokenHandler,
         currentRoomName,
         getRoomName: getRoomNameHandler,
+        isSignUpForm,
+        IsSignUpForm:  IsSignUpFormHandler,
     }
 
     return (

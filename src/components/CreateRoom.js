@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import useInputHook from './customHooks/useInputHook';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../config/firebase-config';
@@ -9,30 +9,44 @@ import { btnStyles } from "../style";
 import CartContext from '../store/cart-context';
 
 const CreateRoom = () => {
-  const { userInput: roomNameInput, userInputHandler: roomNameInputHandle } =
-  useInputHook((value) => value.length > 0);
-const { userInput: passcodeInput, userInputHandler: passcodeInputHandle } =
+  const { userInput: roomNameInput, userInputHandler: roomNameInputHandle, inputTouchHandler: roomInputTouched, isFormValid: roomNameValid } =
+  useInputHook((value) => value.trim() > 0);
+
+const { userInput: passcodeInput, userInputHandler: passcodeInputHandle, inputTouchHandler: passcodeInputTouched, isFormValid: passcodeValid } =
   useInputHook((value) => value.length > 8);
+
+  const [confirmPasscode, setConfirmPasscode] = useState('')
+  const [createRoomError, setCreateRoomError] = useState(null)
 
     const {setCreateRoom, getRoomName,  isLoading, loadingHandle} = useContext(CartContext)
 
     const userRoomsRef = collection(db, "rooms")
 
     const createRoomHandler = async (event) => {
-      loadingHandle(true);
       event.preventDefault()
+      loadingHandle(true);
+      setCreateRoomError(null)
 
-      if (!roomNameInput && !passcodeInput) {
+      if (!passcodeValid && !roomNameValid && passcodeInput !== confirmPasscode) {
         loadingHandle(false);
         return;
       }
-      await addDoc(userRoomsRef, {
-        createdAt: serverTimestamp(),
-        roomId: `${roomNameInput}123`,
-        roomName: roomNameInput,
-        roomPasscode: passcodeInput,
-        roomTrackingId: auth.currentUser.uid,
-      })
+      try {
+        let replacedString = roomNameInput.replace(" ", "d")
+
+        await addDoc(userRoomsRef, {
+          createdAt: serverTimestamp(),
+          roomId: `${replacedString.slice(0, 5)}${auth.currentUser.uid.slice(0, 5)}`,
+          roomName: roomNameInput,
+          roomPasscode: passcodeInput,
+          roomTrackingId: auth.currentUser.uid,
+        })
+      } catch(err) {
+        console.error(err);
+         loadingHandle(false);
+         setCreateRoomError("Failed to create room!")
+      }
+      
 
       setCreateRoom(true)
       getRoomName(roomNameInput)
@@ -53,10 +67,13 @@ const { userInput: passcodeInput, userInputHandler: passcodeInputHandle } =
           type: "text",
           name: "username",
           value: roomNameInput,
+          onBlur: roomInputTouched,
             onChange: (e) => {
-              roomNameInputHandle(e.target.value);}
+              roomNameInputHandle(e.target.value);
+            }
         }}
       />
+      {!passcodeValid && <p>Please enter a valid room name!</p>}
       <Input
         label="Room Passcode"
         inputFor="room-passcode"
@@ -64,12 +81,15 @@ const { userInput: passcodeInput, userInputHandler: passcodeInputHandle } =
           id: "room-passcode",
           type: "password",
           name: "username",
+          onBlur: passcodeInputTouched,
           value: passcodeInput,
           onChange: (e) => {
             passcodeInputHandle(e.target.value);}
         
         }}
       />
+      {!passcodeValid && <p>Please enter a valid room name!</p>}
+
       <Input
         label="Confirm Room Passcode"
         inputFor="con-room-passcode"
@@ -77,11 +97,14 @@ const { userInput: passcodeInput, userInputHandler: passcodeInputHandle } =
           id: "con-room-passcode",
           type: "password",
           name: "username",
-          value: passcodeInput,
+          value: confirmPasscode,
           onChange: (e) => {
-            passcodeInputHandle(e.target.value);}
+            setConfirmPasscode(e.target.value);}
         }}
       />
+      {passcodeInput !== confirmPasscode && <p>Please Passcode and Confirm Passcode is not the same!</p>}
+        {createRoomError && <p>{createRoomError}</p>}
+
       <Button text="Create Room" type="submit" styles={`${btnStyles} mt-8`} />
       {isLoading && <h2 className="text-main text-center mt-3">Looding...</h2>}
     </form>

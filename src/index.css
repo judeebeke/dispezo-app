@@ -31,12 +31,17 @@ body #root {
   overflow: hidden;
 }
 
+.react-icons-style {
+  font-size: 1.3rem;
+  margin-left: 1.1px;
+}
+
 .user {
   align-self: flex-end !important;
 }
 
-p {
-  max-width: 60% !important;
+h2 {
+  font-size: 1.2rem;
 }
 
 .chatroom-bg {
@@ -77,13 +82,9 @@ p {
   z-index: 40;
 }
 
-/* .hide {
-  display: none;
+.chats {
+  max-width: 60% !important;
 }
-
-.show {
-  display: block;
-} */
 
 .menu-icon {
   font-size: 2rem;
@@ -150,7 +151,6 @@ color: #110100 !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* color: #fcf9f9; */
 }
 
 .free-design-cont {

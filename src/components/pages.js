@@ -5,7 +5,7 @@ import ChatRoom from "./chats/ChatRoom";
 import ChatMenu from "./chats/ChatMenu";
 import Overlay from "./UI/Overlay";
 
-const Pages = () => {
+const Pages = (props) => {
   const { createRoom, joinRoom, timeHandler, isMenu, menuHandler } =
     useContext(CartContext);
 
@@ -16,6 +16,7 @@ const Pages = () => {
   let largeWindow = (
     <ChatMenu
       deviceStyle={`hidden flex-col justify-start items-center h-screen gap-y-4 pt-4 md:w-1/3 md:flex`}
+      setIsAuth={props.setIsAuth}
     />
   );
 
@@ -24,6 +25,7 @@ const Pages = () => {
       deviceStyle={`absolute top-0 ${
         !isMenu ? "hidden -right-full" : "flex right-0"
       } bg-mildWhite flex-col justify-start items-center h-screen gap-y-4 pt-4 w-8/12 z-50 md:hidden`}
+      setIsAuth={props.setIsAuth}
     />
   );
 

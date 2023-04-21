@@ -33,10 +33,11 @@ const ChatRoom = () => {
   let chatsContent = getChats.map((chat) => {
     return (
       <p
-        className="py-2 px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl"
+        className="py-2 px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl chats"
         key={chat.id}
       >
         {chat.message}
+        <em  className="py-3 px-2 mb-1 text-xs items-end">time</em>
       </p>
     );
   });
@@ -65,22 +66,22 @@ const ChatRoom = () => {
         </button>
       </nav>
       <div className="flex flex-col justify-start w-full h-4/5 text-mildWhite px-4 mt-2 mb-2 overflow-y-auto chats-view">
-        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl">
+        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl chats">
           Hi Ebeke
         </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl">
+        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl" chats>
           Hi i'm Jude, I am here to help you connect privately
         </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl">
+        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl" chats>
           Hi Jude
         </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl">
+        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl" chats>
           This is just a dummy chat
         </p>
-        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl">
+        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl" chats>
           Hi Ebeke
         </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl">
+        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl" chats>
           Hi i'm Jude, I am here to help you connect privately
         </p>
         {chatsContent}
