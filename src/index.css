@@ -22,8 +22,8 @@ body #root {
 
 .app-container {
   background-image: linear-gradient(#f5cbd8, #fce8ee);
-  overflow: hidden;
-
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .app-container-chat {
