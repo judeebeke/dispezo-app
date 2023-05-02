@@ -17,8 +17,9 @@ const ChatRoom = () => {
   const chatCollectionRef = collection(db, "chats");
   
   useEffect(() => {
+    const sendChatCollectionRef = collection(db, "chats");
     
-    const queryMessaage = query(chatCollectionRef, where("roomid", "==", getRoomStats.roomId));
+    const queryMessaage = query(sendChatCollectionRef, where("roomid", "==", getRoomStats.roomId));
     
     console.log('Why do you re-render too much?')
 

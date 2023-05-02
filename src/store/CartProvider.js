@@ -17,12 +17,8 @@ const CartProvider = (props) => {
   const [isInputAuth, setIsInputAuth] = useState(false);
 
   let authCookie = cookies.get("auth-token");
-  // let createRoomCookie = cookies.get("create-token");
-  // let joinRoomCookie = cookies.get("join-token");
 
   const [isAuth, setIsAuth] = useState(authCookie);
-  // const [isCreateRoom, setIsCreateRoom] = useState(createRoomCookie);
-  // const [isJoinRoom, setIsJoinRoom] = useState(joinRoomCookie);
 
   const IsSignUpFormHandler = (val) => {
     setIsSignUpForm(val);
