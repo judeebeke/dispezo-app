@@ -5,9 +5,10 @@ const Chat = ({chats}) => {
   return (
     <>
     {chats.map((chat) => {
+    console.log(chat, chat.authID, auth.currentUser.uid)
         return (
           <p
-            className={`flex flex-col py-2 px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl chats ${chat.authId === auth.currentUser.uid && "user"}`}
+            className={`flex flex-col py-2 px-2 mb-2 bg-main w-max border-0 rounded-xl chats ${chat.authID === auth.currentUser.uid && "user"}`}
             key={chat.id}
           >
             <i className="text-gray-100 text-xs">{chat.username}</i>

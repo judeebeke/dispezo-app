@@ -58,6 +58,7 @@ const ChatMenu = ({deviceStyle, setIsAuth}) => {
         <Button styles={btnStyles} onSignIn={changeRoomHandler} >{getRoomStats.roomTrackingId === auth.currentUser.uid ? <Link to="/enter-room/joinRoom">Join Room</Link> : <Link to="/enter-room/createRoom">Create Room</Link>}</Button>
 
         <Button styles={btnStyles} text="Logout" onSignIn={logOutHandler} />
+        <p>{auth.currentUser.email}</p>
     </section>
   )
 }

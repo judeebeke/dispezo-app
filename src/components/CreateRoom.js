@@ -65,6 +65,7 @@ const CreateRoom = () => {
       roomTrackingId: auth.currentUser.uid,
     };
 
+      console.log(currentStats)
 
     try {
       await addDoc(userRoomsRef, currentStats);
