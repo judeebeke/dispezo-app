@@ -35,7 +35,7 @@ const CreateRoom = () => {
   const [confirmPasscode, setConfirmPasscode] = useState("");
   const [createRoomError, setCreateRoomError] = useState(null);
 
-  const {isLoading, loadingHandle, getRoomStats, setGetRoomStatsHandle, setIsCreateRoom } =
+  const { isLoading, loadingHandle, setGetRoomStatsHandle, setIsCreateRoom } =
     useContext(CartContext);
 
   // Reference to the collection in the DB
@@ -63,26 +63,25 @@ const CreateRoom = () => {
       roomName: roomNameInput,
       roomPasscode: passcodeInput,
       roomTrackingId: auth.currentUser.uid,
-    }
+    };
 
-    console.log(currentStats)
-    
+    console.log(currentStats);
+
     try {
       await addDoc(userRoomsRef, currentStats);
-      setGetRoomStatsHandle(currentStats)
+      setGetRoomStatsHandle(currentStats);
+      console.log("sucessfully created room");
+      cookies.set("create-token", auth.currentUser.refreshToken);
+      setIsCreateRoom(true);
+      navigate("/chat");
+      roomNameInputHandle("");
+      passcodeInputHandle("");
+      loadingHandle(false);
     } catch (err) {
       console.error(err);
       loadingHandle(false);
       setCreateRoomError("Failed to create room!");
     }
-
-    console.log("sucessfully created room");
-    cookies.set("create-token", auth.currentUser.refreshToken);
-    setIsCreateRoom(true)
-    navigate("/chat");
-    roomNameInputHandle("");
-    passcodeInputHandle("");
-    loadingHandle(false);
   };
 
   const passwordError = (

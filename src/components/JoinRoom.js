@@ -49,7 +49,6 @@ const JoinRoom = () => {
     console.log(getRoomInfo)
 
     const getRequestedChat = getRoomInfo.find((chat) => {
-      console.log(chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput)
       setValidateForm(chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput)
       return chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput
     });

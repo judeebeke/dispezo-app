@@ -64,8 +64,7 @@ const ChatRoom = () => {
             return ( !prev )
         })
       };
-      // <img src={auth?.currentUser?.photoURL} alt='USER PROFILE THUMBNAIL' />
-      // console.log(auth?.currentUser?.photoURL)
+      
   return (
     <main className="h-full w-full md:w-4/6 flex flex-col justify-between items-start chatroom-bg">
       <nav className="flex justify-between items-start w-full px-4 pt-3 pb-1">
