@@ -35,7 +35,7 @@ const CreateRoom = () => {
   const [confirmPasscode, setConfirmPasscode] = useState("");
   const [createRoomError, setCreateRoomError] = useState(null);
 
-  const { isLoading, loadingHandle, setGetRoomStatsHandle, setIsCreateRoom } =
+  const { isLoading, loadingHandle, setGetRoomStatsHandle} =
     useContext(CartContext);
 
   // Reference to the collection in the DB
@@ -72,7 +72,6 @@ const CreateRoom = () => {
       setGetRoomStatsHandle(currentStats);
       console.log("sucessfully created room");
       cookies.set("create-token", auth.currentUser.refreshToken);
-      setIsCreateRoom(true);
       navigate("/chat");
       roomNameInputHandle("");
       passcodeInputHandle("");

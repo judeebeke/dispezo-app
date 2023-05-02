@@ -13,7 +13,7 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 const ChatMenu = ({deviceStyle, setIsAuth}) => {
-    const { logginHandler, menuHandler, setIsCreateRoom, getRoomStats, setGetRoomStatsHandle, setIsJoinRoom ,  } = useContext(CartContext);
+    const { logginHandler, menuHandler,  getRoomStats, setGetRoomStatsHandle  } = useContext(CartContext);
     const navigate = useNavigate()
 
     const settingsBtnStyle = 'bg-transparent font-bold black-text hover-black transition-all ease-in hover:font-normal hover:shadow-md hover:bg-lightMain';
@@ -29,8 +29,6 @@ const ChatMenu = ({deviceStyle, setIsAuth}) => {
         logginHandler(false);
         menuHandle()
         setIsAuth(false)
-        setIsCreateRoom(false)
-        setIsJoinRoom(false)
         cookies.remove("auth-token")
         cookies.remove("create-token")
         cookies.remove("join-token")
@@ -42,8 +40,6 @@ const ChatMenu = ({deviceStyle, setIsAuth}) => {
         cookies.remove("create-token")
         cookies.remove("join-token")
         setGetRoomStatsHandle({})
-        setIsJoinRoom(false)
-        setIsCreateRoom(false)
       }
 
     return (
