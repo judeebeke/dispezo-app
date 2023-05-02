@@ -65,12 +65,10 @@ const CreateRoom = () => {
       roomTrackingId: auth.currentUser.uid,
     };
 
-    console.log(currentStats);
 
     try {
       await addDoc(userRoomsRef, currentStats);
       setGetRoomStatsHandle(currentStats);
-      console.log("sucessfully created room");
       cookies.set("create-token", auth.currentUser.refreshToken);
       navigate("/chat");
       roomNameInputHandle("");

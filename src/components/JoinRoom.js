@@ -46,21 +46,18 @@ const JoinRoom = () => {
       return { ...doc.data(), id: doc.id };
     });
 
-    console.log(getRoomInfo)
 
     const getRequestedChat = getRoomInfo.find((chat) => {
       setValidateForm(chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput)
       return chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput
     });
     
-    console.log(getRequestedChat)
     setGetRoomStatsHandle(getRequestedChat);
 
     if(getRequestedChat) {
       navigate("/chat");
       cookies.set("join-token", auth.currentUser.refreshToken);
       setIsJoinRoom(true)
-      console.log('Do you get here?')
     }
   };
 

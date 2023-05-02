@@ -21,8 +21,6 @@ const ChatRoom = () => {
     
     const queryMessaage = query(sendChatCollectionRef, where("roomid", "==", getRoomStats.roomId));
     
-    console.log('Why do you re-render too much?')
-
     const suscribeChats =  onSnapshot(queryMessaage, (snapshot) => {
     let messages = []
       snapshot.forEach((doc) => {
