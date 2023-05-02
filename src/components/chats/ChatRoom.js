@@ -1,59 +1,77 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiSend } from "react-icons/bi";
+
 import dispezoLogo from '../../assets/dispezo-logo.png'
 import CartContext from "../../store/cart-context";
+import { auth, db } from "../../config/firebase-config";
+import { collection, addDoc, serverTimestamp, onSnapshot, query, where } from "firebase/firestore";
+import Chat from "./Chat";
 
 const ChatRoom = () => {
-   const [getChat, setGetChat] = useState("");
+  const [getChat, setGetChat] = useState("");
   const [getChats, setGetChats] = useState([]);
-  const {time, createRoom, joinRoom, isMenu, menuHandler} = useContext(CartContext)
+  const {time, menuHandler, getRoomStats} = useContext(CartContext)
+  
+  const chatCollectionRef = collection(db, "chats");
+  
+  useEffect(() => {
+    
+    const queryMessaage = query(chatCollectionRef, where("roomid", "==", getRoomStats.roomId));
+    
+    console.log('Why do you re-render too much?')
 
-  const chatsInputHandler = (event) => {
-    setGetChat(event.target.value);
-  };
+    const suscribeChats =  onSnapshot(queryMessaage, (snapshot) => {
+    let messages = []
+      snapshot.forEach((doc) => {
+        messages.push({...doc.data(), id: doc.id})
+      })
+      setGetChats(messages)
+    })
 
-  const chatsInputFormHandler = (event) => {
+
+    return () => {suscribeChats()}
+  }, [getRoomStats])
+
+  const chatsInputFormHandler = async (event) => {
     event.preventDefault();
-
+    
     if (getChat === "") {
       return;
-    } else {
-      setGetChats((prev) => {
-        return [...prev, { message: getChat, id: Math.random().toFixed(3) }];
-      });
-
-      setGetChat("");
-
-      console.log(createRoom, joinRoom, isMenu);
     }
+
+    try {    
+      await addDoc(chatCollectionRef, {
+        createdAt: serverTimestamp(),
+        authID: auth.currentUser.uid,
+        message: getChat,
+        roomName: getRoomStats.roomName,
+        roomid: getRoomStats.roomId,
+        username: auth.currentUser.displayName || auth.currentUser.email
+      })
+    } catch(err) {
+      console.log(err)
+      window.alert("Unable to send Chats, Please try again!")
+    }
+   
+    setGetChat("");
+
   };
  
-  let chatsContent = getChats.map((chat) => {
-    return (
-      <p
-        className="py-2 px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl chats"
-        key={chat.id}
-      >
-        {chat.message}
-        <em  className="py-3 px-2 mb-1 text-xs items-end">time</em>
-      </p>
-    );
-  });
-
   const menuHandle = () => {
         menuHandler(prev => {
             return ( !prev )
         })
       };
-
+      // <img src={auth?.currentUser?.photoURL} alt='USER PROFILE THUMBNAIL' />
+      // console.log(auth?.currentUser?.photoURL)
   return (
     <main className="h-full w-full md:w-4/6 flex flex-col justify-between items-start chatroom-bg">
       <nav className="flex justify-between items-start w-full px-4 pt-3 pb-1">
-        <div className="profile-thumbnail">{/* <img src='' alt='' /> */}</div>
+        {/* <div className="profile-thumbnail"></div> */}
         <span className="flex flex-col items-center w-full">
-          <h1 className="font-bold text-lg">Room Name</h1>
+          <h1 className="font-bold text-lg">{getRoomStats.roomName.toUpperCase()}</h1>
             <p className="font-normal text-sm">{time}</p>
           </span>
         <button className="hidden md:block">
@@ -66,25 +84,7 @@ const ChatRoom = () => {
         </button>
       </nav>
       <div className="flex flex-col justify-start w-full h-4/5 text-mildWhite px-4 mt-2 mb-2 overflow-y-auto chats-view">
-        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl chats">
-          Hi Ebeke
-        </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl" chats>
-          Hi i'm Jude, I am here to help you connect privately
-        </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl" chats>
-          Hi Jude
-        </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main items-end w-max user border-0 rounded-xl" chats>
-          This is just a dummy chat
-        </p>
-        <p className="py-2 shadow-md mb-2 bg-main px-2 w-max border-0 rounded-xl" chats>
-          Hi Ebeke
-        </p>
-        <p className="py-2 shadow-md px-2 mb-2 bg-main w-max border-0 rounded-xl" chats>
-          Hi i'm Jude, I am here to help you connect privately
-        </p>
-        {chatsContent}
+       <Chat chats={getChats} />
       </div>
       <form
         className="w-full h-10 flex justify-start shadow-md"
@@ -93,7 +93,8 @@ const ChatRoom = () => {
         <input
           type="text"
           name="chat-input"
-          onChange={chatsInputHandler}
+          x-webkit-speech="true"
+          onChange={(event) => setGetChat(event.target.value)}
           placeholder="Type your message here..."
           className="w-full h-10 bg-mildWhite focus:outline-none px-4"
           value={getChat}

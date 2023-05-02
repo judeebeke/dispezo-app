@@ -24,13 +24,15 @@ const GoogleSignInButton = () => {
   const signinWithGoogle = async () => {
     setIsGoogleSigninLoading(true);
     setIsInputAuth(false);
-    setCreateRoomError(false)
+    setGoogleSigninError(null);
+    setCreateRoomError(false);
+    setIsGoogleSigninLoading(true);
+
     try {
       const response = await signInWithPopup(auth, Provider);
-      console.log(response.user);
-
+      // console.log(response.user);
       if (!response.user) {
-        return;
+        throw new Error("Failed to Login");
       }
 
       cookies.set("auth-token", auth.currentUser.refreshToken);
@@ -53,6 +55,7 @@ const GoogleSignInButton = () => {
       </IconContext.Provider>
     </span>
   );
+
   const googleSignInBtnStyles =
     "bg-mildWhite text-main transition-all ease-in shadow-md font-semibold tracking-wide hover:bg-lightMain hover:text-mildWhite";
 

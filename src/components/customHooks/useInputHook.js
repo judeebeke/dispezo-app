@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const useInputHook = (inputValidator) => {
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState('');
   const [isInputTouched, setIsInputTouched] = useState(false);
   const [inputError, setInputError] = useState(false);
 

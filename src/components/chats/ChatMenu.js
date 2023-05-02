@@ -4,6 +4,7 @@ import {AiOutlineClose} from 'react-icons/ai'
 import CartContext from "../../store/cart-context";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
+import {Link, useNavigate} from 'react-router-dom'
 
 import Button from "../UI/Button";
 import { btnStyles } from "../../style";
@@ -11,9 +12,9 @@ import { btnStyles } from "../../style";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-
 const ChatMenu = ({deviceStyle, setIsAuth}) => {
-    const { logginHandler, setCreateRoom, setJoinRoom, setSignUpPage, menuHandler } = useContext(CartContext);
+    const { logginHandler, menuHandler, setIsCreateRoom, getRoomStats, setGetRoomStatsHandle, setIsJoinRoom ,  } = useContext(CartContext);
+    const navigate = useNavigate()
 
     const settingsBtnStyle = 'bg-transparent font-bold black-text hover-black transition-all ease-in hover:font-normal hover:shadow-md hover:bg-lightMain';
 
@@ -25,14 +26,25 @@ const ChatMenu = ({deviceStyle, setIsAuth}) => {
     
     const logOutHandler = async () => {
         await signOut(auth)
-        setCreateRoom(false);
         logginHandler(false);
-        setJoinRoom(false);
-        setSignUpPage(false);
         menuHandle()
         setIsAuth(false)
+        setIsCreateRoom(false)
+        setIsJoinRoom(false)
         cookies.remove("auth-token")
+        cookies.remove("create-token")
+        cookies.remove("join-token")
+        navigate('/')
+        setGetRoomStatsHandle({})
       };
+
+      const changeRoomHandler = () => {
+        cookies.remove("create-token")
+        cookies.remove("join-token")
+        setGetRoomStatsHandle({})
+        setIsJoinRoom(false)
+        setIsCreateRoom(false)
+      }
 
     return (
     <section className={`${deviceStyle} menuAnimate`}>
@@ -44,7 +56,7 @@ const ChatMenu = ({deviceStyle, setIsAuth}) => {
 
         <Button styles={settingsBtnStyle} text="Settings" />
 
-        <Button styles={btnStyles} text="Join Room" />
+        <Button styles={btnStyles} onSignIn={changeRoomHandler} ><Link to="/enter-room/joinRoom">{getRoomStats.roomTrackingId === auth.currentUser.uid ? "Join Room" : "Create Room"}</Link></Button>
 
         <Button styles={btnStyles} text="Logout" onSignIn={logOutHandler} />
     </section>

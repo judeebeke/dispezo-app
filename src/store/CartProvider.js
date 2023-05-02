@@ -8,18 +8,21 @@ const cookies = new Cookies();
 const CartProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [isCreateRoom, setIsCreateRoom] = useState(false);
-  const [isJoinRoom, setIsJoinRoom] = useState(false);
   const [isActivateMenu, setIsActivateMenu] = useState(false);
   const [time, setTime] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [currentRoomName, setCurrentRoomName] = useState(false);
+  const [getRoomStats, setGetRoomStats] = useState({});
   const [isSignUpForm, setIsSignUpForm] = useState(true);
   const [createRoomError, setCreateRoomError] = useState(null);
   const [isInputAuth, setIsInputAuth] = useState(false);
 
-  let cookie = cookies.get("auth-token");
-  const [isAuth, setIsAuth] = useState(cookie);
+  let authCookie = cookies.get("auth-token");
+  let createRoomCookie = cookies.get("create-token");
+  let joinRoomCookie = cookies.get("join-token");
+
+  const [isAuth, setIsAuth] = useState(authCookie);
+  const [isCreateRoom, setIsCreateRoom] = useState(createRoomCookie);
+  const [isJoinRoom, setIsJoinRoom] = useState(joinRoomCookie);
 
   const IsSignUpFormHandler = (val) => {
     setIsSignUpForm(val);
@@ -29,9 +32,9 @@ const CartProvider = (props) => {
     setIsAuth(val);
   };
 
-  const getRoomNameHandler = (val) => {
-    setCurrentRoomName(val);
-  };
+ const setGetRoomStatsHandler = useCallback((val) => {
+    setGetRoomStats(val);
+  }, []);
 
   const setIsLoggedInHandler = (bool) => {
     setIsLoggedIn(bool);
@@ -39,14 +42,6 @@ const CartProvider = (props) => {
 
   const setIsSignUpHandler = (bool) => {
     setIsSignUp(bool);
-  };
-
-  const setisCreateRoomHandler = (bool) => {
-    setIsCreateRoom(bool);
-  };
-
-  const setIsJoinRoomHandler = (bool) => {
-    setIsJoinRoom(bool);
   };
 
   const activateMenuHandler = (bool) => {
@@ -81,10 +76,6 @@ const CartProvider = (props) => {
   const chatContext = {
     loggin: isLoggedIn,
     logginHandler: setIsLoggedInHandler,
-    createRoom: isCreateRoom,
-    setCreateRoom: setisCreateRoomHandler,
-    joinRoom: isJoinRoom,
-    setJoinRoom: setIsJoinRoomHandler,
     createsRoom: isSignUp,
     setSignUpPage: setIsSignUpHandler,
     time,
@@ -95,14 +86,18 @@ const CartProvider = (props) => {
     loadingHandle: activateMenuHandler,
     isAuth,
     setAuth: setAuthTokenHandler,
-    currentRoomName,
-    getRoomName: getRoomNameHandler,
     isSignUpForm,
     IsSignUpForm: IsSignUpFormHandler,
     createRoomError,
     setCreateRoomError,
     isInputAuth,
-    setIsInputAuth
+    setIsInputAuth,
+    getRoomStats,
+    setGetRoomStatsHandle: setGetRoomStatsHandler,
+    isCreateRoom, 
+    setIsCreateRoom,
+    isJoinRoom, 
+    setIsJoinRoom
   };
 
   return (

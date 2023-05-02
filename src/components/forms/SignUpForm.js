@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, Fragment } from "react";
 import { auth } from "../../config/firebase-config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import CartContext from "../../store/cart-context";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -27,12 +27,12 @@ const SignUpForm = () => {
 
   const mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$/;
+
   const {
     userInput: emailInput,
     userInputHandler: emailInputHandle,
     isInputValid: isEmailValid,
     inputTouchHandler: emailTouchHandle,
-    isFormValid: emailValid,
   } = useInputHook((value) => value.match(mailformat) !== null);
 
   const {
@@ -40,7 +40,6 @@ const SignUpForm = () => {
     userInputHandler: passwordInputHandle,
     isInputValid: isPasswordValid,
     inputTouchHandler: passwordTouchHandle,
-    isFormValid: passwordValid,
   } = useInputHook((value) => value.match(passw) !== null);
 
   const signinDispezoHandler = async (
@@ -81,13 +80,12 @@ const SignUpForm = () => {
       setValidateForm(false);
       return;
     }
+
     signinDispezoHandler(
       emailInput,
       emailInputHandle,
       passwordInput,
       passwordInputHandle,
-      emailValid,
-      passwordValid
     );
   };
 
@@ -108,6 +106,7 @@ const SignUpForm = () => {
   );
 
   return (
+
     <form
       className="flex flex-col justify-between px-7 bg-mildWhite p-6"
       onSubmit={formHandler}
@@ -145,6 +144,7 @@ const SignUpForm = () => {
         }}
       />
       {!isPasswordValid && !validateForm && passwordError}
+
       <Button text="Signup" type="submit" styles={`${btnStyles} mt-8`} />
       {isLoading && !createRoomError && <h2 className="text-main text-center mt-3">Loading...</h2>}
 
