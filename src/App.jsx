@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 import Pages from "./components/pages";
 import Auth from "./components/Auth";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -12,7 +12,6 @@ import JoinRoom from "./components/JoinRoom";
 import ChatRoom from "./components/chats/ChatRoom";
 import ChatErrorPage from "./components/chats/ChatErrorPage";
 import ChatRoot from "./components/chats/ChatRoot";
-import CartContext from './store/cart-context';
 
 const App = () => {
   // const {isAuth} = useContext(CartContext);
