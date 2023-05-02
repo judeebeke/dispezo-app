@@ -61,7 +61,7 @@ const JoinRoom = () => {
     }
   };
 
-  const joinRoomHandler = async (event) => {
+  const joinRoomHandler = (event) => {
     event.preventDefault();
 
     if (!isRoomNameValid || !isPasscodeValid) {
@@ -69,12 +69,11 @@ const JoinRoom = () => {
     }
 
     try {
-        await fetchRoomsDocs();
+       fetchRoomsDocs();
     } catch (err) {
       console.log(err);
       window.alert("Error while trying to join a room, Please try again!")
     }
-    
     
   };
 
