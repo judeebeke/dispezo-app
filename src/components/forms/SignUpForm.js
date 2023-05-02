@@ -150,7 +150,7 @@ const SignUpForm = () => {
 
       {createRoomError && !inputAuth && (
         <h2 className="text-main text-center mt-3 text-black font-semibold">
-          Failed to login!
+          Failed to Create Accout
         </h2>
       )}
     </form>
