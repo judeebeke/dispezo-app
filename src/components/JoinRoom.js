@@ -79,7 +79,6 @@ const JoinRoom = () => {
     try {
        fetchRoomsDocs();
     } catch (err) {
-      console.log(err.code);
       window.alert(err.code)
     }
     

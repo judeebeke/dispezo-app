@@ -78,7 +78,6 @@ const ChatRoom = () => {
         username: auth.currentUser.displayName || auth.currentUser.email,
       });
     } catch (err) {
-      console.log(err.code);
       window.alert("Unable to send Chats, Please try again!");
     }
 

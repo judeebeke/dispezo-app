@@ -13,7 +13,7 @@ const EnterRoomPage = () => {
     if(currentUser === null) {
       navigate('/')
     }
-  })
+  }, [currentUser, navigate])
   const  EnterRoomOption = <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-4">
   <Button
     styles={btnStyles}> <Link to="/enter-room/createRoom">Create Room</Link></Button>

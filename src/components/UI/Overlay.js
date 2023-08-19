@@ -8,12 +8,12 @@ const Overlay = (props) => {
   const isMenuOpen = useSelector(state => state.ui.isMenuOpen)
 
     const menuHandle = () => {
-       dispatch(uiActions.setMenuOpen());
+      dispatch(uiActions.setMenuOpen());
      };
 
   return (
     <>
-        <div className={`${classes.overlay} ${!isMenuOpen && "hidden"}`} onClick={menuHandle}></div>
+        <div className={`${isMenuOpen ? classes.overlay : classes.removeOverlay }`} onClick={menuHandle}></div>
       {props.children}
     </>
   )

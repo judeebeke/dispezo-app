@@ -13,6 +13,7 @@ import JoinRoom from "./components/JoinRoom";
 import ChatRoom from "./components/chats/ChatRoom";
 import ChatErrorPage from "./components/chats/ChatErrorPage";
 import ChatRoot from "./components/chats/ChatRoot";
+import ChatSettings from "./components/chats/ChatSettings";
 
 const App = () => {
   // const {isAuth} = useContext(CartContext);
@@ -64,6 +65,10 @@ const App = () => {
               index: true,
               element: <ChatRoom />,
             },
+            {
+              path: "/chat/chat-settings",
+              element: <ChatSettings />
+            }
           ],
         },
       ],

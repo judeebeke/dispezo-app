@@ -10,9 +10,6 @@ import useInputHook from "../customHooks/useInputHook";
 import { btnStyles } from "../../style";
 import { headerStyle } from "../../style";
 import { uiActions } from "../../store/ui-slice";
-// import Cookies from "universal-cookie";
-
-// const cookies = new Cookies();
 
 const SignUpForm = () => {
   const [validateForm, setValidateForm] = useState(true);
@@ -59,17 +56,13 @@ const SignUpForm = () => {
         emailInput,
         passwordInput
       );
-      console.log(userCredentials.user.uid);
-      // cookies.set("auth-token", userCredentials.user.accessToken);
       dispatch(uiActions.getAuthUser({authUser: userCredentials.user.uid}))
       setIsSignUpLoading(false);
       emailInputHandle("");
       passwordInputHandle("");
       navigate("/enter-room");
     } catch (err) {
-      console.error(err.message);
       let errorCode = err.code;
-      // let errorMessage = err.message;
       setSignUpError(`${errorCode}`);
       setIsSignUpLoading(false);
       return;

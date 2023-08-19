@@ -64,8 +64,6 @@ const CreateRoom = () => {
       roomPasscode: passcodeInput,
       roomTrackingId: auth.currentUser.uid,
     };
-
-      console.log(currentStats)
       
       let newRoomStats = {
         roomId: currentStats.roomId,
@@ -83,7 +81,6 @@ const CreateRoom = () => {
       setLoadingHandle(false)
       navigate("/chat");
     } catch (err) {
-      console.error(err);
       setLoadingHandle(false);
       setCreateRoomError(`${err.code}  ${err.message}`);
     }

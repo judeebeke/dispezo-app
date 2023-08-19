@@ -16,27 +16,22 @@ const GoogleSignInButton = () => {
 
  const signinWithGoogle = async () => {
     setIsGoogleSigninLoading(true);
-    // setIsInputAuth(false);
-    // setGoogleSigninError(null);
-    // setCreateRoomError(false);
-    // setIsGoogleSigninLoading(true);
+    setGoogleSigninError(null);
+    setIsGoogleSigninLoading(true);
 
     try {
       const response = await signInWithPopup(auth, Provider);
-      // console.log(response.user);
+      console.log(response.user);
       if (!response.user) {
-      //   let errorCode = err.code;
-      // let errorMessage = err.message;
+  
         throw new Error("Failed to Login");
       }
 
       cookies.set("auth-token", auth.currentUser.refreshToken);
-      // setAuth(true);
       setIsGoogleSigninLoading(false);
       navigate("/enter-room");
       
     } catch (err) {
-      console.error(err);
       setGoogleSigninError("Failed to login!");
       setIsGoogleSigninLoading(false);
     }

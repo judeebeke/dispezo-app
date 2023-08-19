@@ -116,10 +116,10 @@ color: #110100 !important;
 }
 
 .menuAnimate {
-  animation: meals-appear 1s ease-out forwards;
+  animation: menu-appears 1s ease-out forwards;
 }
 
-@keyframes meals-appear {
+@keyframes menu-appears {
   from {
     opacity: 0;
     transform: translateX(3rem);

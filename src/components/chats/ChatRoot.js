@@ -17,7 +17,7 @@ const ChatRoot = () => {
     if(currentUser === null) {
       navigate('/')
     }
-  })
+  }, [currentUser, navigate])
 
    let largeWindow = (
     <ChatMenu

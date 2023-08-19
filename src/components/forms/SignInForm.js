@@ -57,14 +57,12 @@ const SignInForm = (props) => {
     try {
       let userCredentials = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
       // cookies.set("auth-token", auth.currentUser.refreshToken);
-      console.log(userCredentials.user.uid)
       dispatch(uiActions.getAuthUser({authUser: userCredentials.user.uid}))
       setIsSignUpLoading(false);
       emailInputHandle("");
       passwordInputHandle("");
       navigate("/enter-room");
     } catch (err) {
-      console.error(err);
       setSignUpError(`${err.code}`);
       setIsSignUpLoading(false);
     }
