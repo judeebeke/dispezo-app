@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import useInputHook from "./customHooks/useInputHook";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../config/firebase-config";
@@ -7,23 +8,27 @@ import { useNavigate } from "react-router-dom";
 import Button from "./UI/Button";
 import Input from "./UI/Input";
 import { btnStyles } from "../style";
-import CartContext from "../store/cart-context";
+import { uiActions } from "../store/ui-slice";
 
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+// import Cookies from "universal-cookie";
+// const cookies = new Cookies();
 
 const CreateRoom = () => {
   const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$/;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [validateForm, setValidateForm] = useState(true);
+  const [ loadingHandle, setLoadingHandle] = useState(false);
+  const [confirmPasscode, setConfirmPasscode] = useState("");
+  const [createRoomError, setCreateRoomError] = useState(null);
 
   const {
     userInput: roomNameInput,
     userInputHandler: roomNameInputHandle,
     inputTouchHandler: roomInputTouched,
     isInputValid: isRoomNameValid,
-  } = useInputHook((value) => value.trim().length > 0);
+  } = useInputHook((value) => value.trim().length > 3);
 
   const {
     userInput: passcodeInput,
@@ -32,18 +37,13 @@ const CreateRoom = () => {
     isInputValid: isPasscodeValid,
   } = useInputHook((value) => value.match(passw) !== null);
 
-  const [confirmPasscode, setConfirmPasscode] = useState("");
-  const [createRoomError, setCreateRoomError] = useState(null);
-
-  const { isLoading, loadingHandle, setGetRoomStatsHandle} =
-    useContext(CartContext);
 
   // Reference to the collection in the DB
   const userRoomsRef = collection(db, "rooms");
 
   const createRoomHandler = async (event) => {
     event.preventDefault();
-    loadingHandle(true);
+    setLoadingHandle(true);
     setCreateRoomError(null);
 
     if (
@@ -54,7 +54,7 @@ const CreateRoom = () => {
       setValidateForm(false);
       return;
     }
-
+    
     let replacedString = roomNameInput.replace(" ", "d");
     let newReplacedString = replacedString.slice(0, 5);
     let currentStats = {
@@ -66,19 +66,26 @@ const CreateRoom = () => {
     };
 
       console.log(currentStats)
+      
+      let newRoomStats = {
+        roomId: currentStats.roomId,
+        roomName: roomNameInput,
+        roomPasscode: passcodeInput,
+        roomTrackingId: auth.currentUser.uid,
+      }
+
+      dispatch(uiActions.getEnteredRoom({enteredRoomStats: newRoomStats }))
 
     try {
       await addDoc(userRoomsRef, currentStats);
-      setGetRoomStatsHandle(currentStats);
-      cookies.set("create-token", auth.currentUser.refreshToken);
-      navigate("/chat");
       roomNameInputHandle("");
       passcodeInputHandle("");
-      loadingHandle(false);
+      setLoadingHandle(false)
+      navigate("/chat");
     } catch (err) {
       console.error(err);
-      loadingHandle(false);
-      setCreateRoomError("Failed to create room!");
+      setLoadingHandle(false);
+      setCreateRoomError(`${err.code}  ${err.message}`);
     }
   };
 
@@ -119,7 +126,8 @@ const CreateRoom = () => {
       />
 
       {!validateForm && !isRoomNameValid && (
-        <p>Please enter a valid room name!</p>
+        <p>Please enter a valid room name! <br />
+        <span className="text-sm">Room name must be greater than 3 charaters</span></p>
       )}
 
       <Input
@@ -159,7 +167,7 @@ const CreateRoom = () => {
       {createRoomError && <p>{createRoomError}</p>}
 
       <Button text="Create Room" type="submit" styles={`${btnStyles} mt-8`} />
-      {isLoading && validateForm && (
+      { loadingHandle &&  (
         <h2 className="text-main text-center mt-3">Loading...</h2>
       )}
     </form>

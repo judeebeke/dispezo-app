@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import useInputHook from "../customHooks/useInputHook";
-import CartContext from "../../store/cart-context";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -9,20 +10,17 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import { btnStyles } from "../../style";
 import { headerStyle } from "../../style";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import { uiActions } from "../../store/ui-slice";
+// import Cookies from "universal-cookie";
+
+// const cookies = new Cookies();
 
 const SignInForm = (props) => {
   const [validateForm, setValidateForm] = useState(true);
-  const {
-    isLoading,
-    loadingHandle,
-    setAuth,
-    setCreateRoomError,
-    createRoomError,
-    setIsInputAuth,
-    inputAuth,
-  } = useContext(CartContext);
+  const [signUpError, setSignUpError] = useState("");
+  const [isSignUpLoading, setIsSignUpLoading] = useState(false);
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
 
   const mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -49,32 +47,31 @@ const SignInForm = (props) => {
     passwordInput,
     passwordInputHandle
   ) => {
-    loadingHandle(true);
-    setIsInputAuth(true);
+    setIsSignUpLoading(true);
+    setSignUpError("");
 
     if (!emailInput && !passwordInput) {
-      loadingHandle(false);
+      setIsSignUpLoading(false);
       return;
     }
     try {
-      await signInWithEmailAndPassword(auth, emailInput, passwordInput);
-      setAuth(true);
-      cookies.set("auth-token", auth.currentUser.refreshToken);
-      loadingHandle(false);
+      let userCredentials = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+      // cookies.set("auth-token", auth.currentUser.refreshToken);
+      console.log(userCredentials.user.uid)
+      dispatch(uiActions.getAuthUser({authUser: userCredentials.user.uid}))
+      setIsSignUpLoading(false);
       emailInputHandle("");
       passwordInputHandle("");
       navigate("/enter-room");
     } catch (err) {
       console.error(err);
-      setCreateRoomError("Failed to login!");
-      loadingHandle(false);
+      setSignUpError(`${err.code}`);
+      setIsSignUpLoading(false);
     }
   };
 
   const formHandler = (e) => {
     e.preventDefault();
-
-    setCreateRoomError(false)
 
     if (!passwordValid && !emailValid) {
       setValidateForm(false);
@@ -108,58 +105,59 @@ const SignInForm = (props) => {
   );
 
   return (
-    <form
-      className="flex flex-col justify-between px-7 bg-mildWhite p-6"
-      onSubmit={formHandler}
-    >
-      <h2 className={headerStyle}>Login to your Dispezo Account</h2>
-      <Input
-        label="Email"
-        inputFor="user-email"
-        input={{
-          id: "user-email",
-          type: "email",
-          name: "useremail",
-          onBlur: emailTouchHandle,
-          value: emailInput,
-          onChange: (e) => {
-            emailInputHandle(e.target.value);
-            setIsInputAuth(false);
-            setCreateRoomError(null);
-          },
-        }}
-      />
-      {!validateForm && !isEmailValid && (
-        <p className="w-full font-medium mb-2">Please enter a valid email!</p>
+      <form
+        className="flex flex-col justify-between px-7 bg-mildWhite p-6"
+        onSubmit={formHandler}
+      >
+        <h2 className={headerStyle}>Login to your Dispezo Account</h2>
+        <Input
+          label="Email"
+          inputFor="user-email"
+          input={{
+            id: "user-email",
+            type: "email",
+            name: "useremail",
+            onBlur: emailTouchHandle,
+            value: emailInput,
+            onChange: (e) => {
+              emailInputHandle(e.target.value);
+              setSignUpError("");
+            },
+          }}
+        />
+        {!validateForm && !isEmailValid && (
+          <p className="w-full font-medium mb-2">Please enter a valid email!</p>
+        )}
+
+        <Input
+          label="Password"
+          inputFor="user-password"
+          input={{
+            id: "user-password",
+            type: "password",
+            name: "username",
+            onBlur: passwordTouchHandle,
+            value: passwordInput,
+            onChange: (e) => {
+              setSignUpError("");
+              passwordInputHandle(e.target.value);
+            },
+          }}
+        />
+        {!isPasswordValid && !validateForm && passwordError}
+
+        <Button text="Login" type="submit" styles={`${btnStyles} mt-8`} />
+        {isSignUpLoading && !signUpError && <h2 className="text-main text-center mt-3">Loading...</h2>}
+
+      {signUpError &&  (
+        <p className="flex flex-wrap text-md text-main text-center mt-3 mx-auto text-black font-semibold">
+          {signUpError}
+        </p>
       )}
-
-      <Input
-        label="Password"
-        inputFor="user-password"
-        input={{
-          id: "user-password",
-          type: "password",
-          name: "username",
-          onBlur: passwordTouchHandle,
-          value: passwordInput,
-          onChange: (e) => {
-            setIsInputAuth(false);
-            setCreateRoomError(null);
-            passwordInputHandle(e.target.value);
-          },
-        }}
-      />
-      {!isPasswordValid && !validateForm && passwordError}
-
-      <Button text="Login" type="submit" styles={`${btnStyles} mt-8`} />
-      {isLoading && !createRoomError && <h2 className="text-main text-center mt-3">Loading...</h2>}
-
-      {createRoomError && !inputAuth && (
-        <h2 className="text-main text-center mt-3 text-black font-semibold">
-          Failed to login!
-        </h2>
-      )}
-    </form>
+      <p className="flex flex-wrap text-blackis text-sm text-center mt-3 mx-auto text-black font-semibold">
+          If you forgot your password click,<a href="/" className="text-main underline"> reset password</a>
+        </p>
+      </form>
   );
 };
 

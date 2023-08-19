@@ -1,24 +1,22 @@
-import { useContext, useState } from "react";
+import {  useState } from "react";
+import {useDispatch} from "react-redux"
 import useInputHook from "./customHooks/useInputHook";
 import { getDocs, collection } from "firebase/firestore";
-import { auth, db } from "../config/firebase-config";
+import { db } from "../config/firebase-config";
 
 import Button from "./UI/Button";
 import Input from "./UI/Input";
 import { btnStyles } from "../style";
-import CartContext from "../store/cart-context";
-import { useNavigate } from "react-router-dom";
-
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import { useNavigate, Form } from "react-router-dom";
+import { uiActions } from "../store/ui-slice";
 
 const JoinRoom = () => {
-  const { setGetRoomStatsHandle, setIsJoinRoom } = useContext(CartContext);
   const navigate = useNavigate();
-
+  const [ loadingHandle, setLoadingHandle] = useState(false);
   const [validateForm, setValidateForm] = useState(true);
+  const dispatch = useDispatch();
 
-//Add a validator to check if the user internet connection is active
+// Note: Add a validator to check if the user internet connection is active
 
   const {
     userInput: roomNameInput,
@@ -39,8 +37,8 @@ const JoinRoom = () => {
   const getRoomsListColRef = collection(db, "rooms");
 
   const fetchRoomsDocs = async () => {
+    
     const response = await getDocs(getRoomsListColRef);
-
 
     const getRoomInfo = response.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
@@ -49,20 +47,30 @@ const JoinRoom = () => {
 
     const getRequestedChat = getRoomInfo.find((chat) => {
       setValidateForm(chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput)
-      return chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput
+      return chat.roomId === roomNameInput && chat.roomPasscode === passcodeInput;
     });
-    
-    setGetRoomStatsHandle(getRequestedChat);
+      
+      if(getRequestedChat) {
+        let requestedRoomStats = {
+          roomId: getRequestedChat.roomId,
+          roomName: getRequestedChat.roomName,
+          roomPasscode: getRequestedChat.roomPasscode,
+          roomTrackingId: getRequestedChat.roomTrackingId,
+        } 
 
-    if(getRequestedChat) {
+      dispatch(uiActions.getEnteredRoom({enteredRoomStats: requestedRoomStats}))
+
       navigate("/chat");
-      cookies.set("join-token", auth.currentUser.refreshToken);
-      setIsJoinRoom(true)
+      // cookies.set("join-token", auth.currentUser.refreshToken);
+      setLoadingHandle(false)
     }
+
   };
 
   const joinRoomHandler = (event) => {
     event.preventDefault();
+    setLoadingHandle(true)
+    setValidateForm(true);
 
     if (!isRoomNameValid || !isPasscodeValid) {
       return;
@@ -71,8 +79,8 @@ const JoinRoom = () => {
     try {
        fetchRoomsDocs();
     } catch (err) {
-      console.log(err);
-      window.alert("Error while trying to join a room, Please try again!")
+      console.log(err.code);
+      window.alert(err.code)
     }
     
   };
@@ -84,7 +92,8 @@ const JoinRoom = () => {
   );
 
   return (
-    <form
+    <Form
+    method='post'
       className="flex flex-col justify-between px-10 bg-mildWhite p-6"
       onSubmit={joinRoomHandler}
     >
@@ -123,8 +132,22 @@ const JoinRoom = () => {
       {!validateForm && joinRoomError}
 
       <Button text="Join Room" styles={`${btnStyles} mt-8`} />
-    </form>
+      { loadingHandle &&  (
+        <h2 className="text-main text-center mt-3">Loading...</h2>
+      )}
+    </Form>
   );
 };
 
 export default JoinRoom;
+
+// export const action = async({request, params}) => {
+//   const getRoomsListColRef = collection(db, "rooms");
+
+//   const response = await getDocs(getRoomsListColRef);
+
+
+//     const getRoomInfo = response.docs.map((doc) => {
+//       return { ...doc.data(), id: doc.id };
+//     });
+// }

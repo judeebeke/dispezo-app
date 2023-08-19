@@ -1,7 +1,5 @@
-import { useContext} from "react";
 import { IconContext } from "react-icons";
 import {AiOutlineClose} from 'react-icons/ai'
-import CartContext from "../../store/cart-context";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
 import {Link, useNavigate} from 'react-router-dom'
@@ -9,40 +7,30 @@ import {Link, useNavigate} from 'react-router-dom'
 import Button from "../UI/Button";
 import { btnStyles } from "../../style";
 
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import { useDispatch, useSelector } from "react-redux";
+import { uiActions } from "../../store/ui-slice";
 
-const ChatMenu = ({deviceStyle, setIsAuth}) => {
-    const { logginHandler, menuHandler, setIsCreateRoom, getRoomStats, setGetRoomStatsHandle, setIsJoinRoom ,  } = useContext(CartContext);
+const ChatMenu = ({deviceStyle}) => {
+    
     const navigate = useNavigate()
-
+    const isRoomCreator = useSelector(state => state.ui.currentRoom)
+    const dispatch = useDispatch()
+    
     const settingsBtnStyle = 'bg-transparent font-bold black-text hover-black transition-all ease-in hover:font-normal hover:shadow-md hover:bg-lightMain';
 
     const menuHandle = () => {
-        menuHandler(prev => {
-            return ( !prev )
-        })
+        dispatch(uiActions.setMenuOpen());
       };
     
     const logOutHandler = async () => {
         await signOut(auth)
-        logginHandler(false);
         menuHandle()
-        setIsAuth(false)
-        setIsCreateRoom(false)
-        cookies.remove("auth-token")
-        cookies.remove("create-token")
-        cookies.remove("join-token")
         navigate('/')
-        setGetRoomStatsHandle({})
+        dispatch(uiActions.getEnteredRoom({enteredRoomStats: {}}))
       };
 
       const changeRoomHandler = () => {
-        cookies.remove("create-token")
-        cookies.remove("join-token")
-        setGetRoomStatsHandle({})
-        setIsJoinRoom(false)
-        setIsCreateRoom(false)
+        navigate('/')
       }
 
     return (
@@ -53,9 +41,9 @@ const ChatMenu = ({deviceStyle, setIsAuth}) => {
           </IconContext.Provider>
         </button>
 
-        <Button styles={settingsBtnStyle} text="Settings" />
+       {auth.currentUser.uid === isRoomCreator.roomTrackingId && <Button styles={settingsBtnStyle} text="Settings" />}
 
-        <Button styles={btnStyles} onSignIn={changeRoomHandler} >{getRoomStats.roomTrackingId === auth.currentUser.uid ? <Link to="/enter-room/joinRoom">Join Room</Link> : <Link to="/enter-room/createRoom">Create Room</Link>}</Button>
+        <Button styles={btnStyles} onSignIn={changeRoomHandler} >{ auth.currentUser.uid ? <Link to="/enter-room/joinRoom">Join Room</Link> : <Link to="/enter-room/createRoom">Create Room</Link>}</Button>
 
         <Button styles={btnStyles} text="Logout" onSignIn={logOutHandler} />
         <p>{auth.currentUser.email}</p>

@@ -1,7 +1,7 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, Fragment } from "react";
+import { useDispatch } from "react-redux";
 import { auth } from "../../config/firebase-config";
-import { useNavigate} from "react-router-dom";
-import CartContext from "../../store/cart-context";
+import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import Input from "../UI/Input";
@@ -9,20 +9,17 @@ import Button from "../UI/Button";
 import useInputHook from "../customHooks/useInputHook";
 import { btnStyles } from "../../style";
 import { headerStyle } from "../../style";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import { uiActions } from "../../store/ui-slice";
+// import Cookies from "universal-cookie";
+
+// const cookies = new Cookies();
 
 const SignUpForm = () => {
   const [validateForm, setValidateForm] = useState(true);
-  const {
-    isLoading,
-    loadingHandle,
-    setAuth,
-    setCreateRoomError,
-    createRoomError,
-    setIsInputAuth,
-    inputAuth,
-  } = useContext(CartContext);
+  const [signUpError, setSignUpError] = useState("");
+  const [isSignUpLoading, setIsSignUpLoading] = useState(false);
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
 
   const mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -42,50 +39,58 @@ const SignUpForm = () => {
     inputTouchHandler: passwordTouchHandle,
   } = useInputHook((value) => value.match(passw) !== null);
 
-  const signinDispezoHandler = async (
+  const createDispezoAccountHandler = async (
     emailInput,
     emailInputHandle,
     passwordInput,
     passwordInputHandle
   ) => {
-    loadingHandle(true);
-    setIsInputAuth(true);
-    
+    setIsSignUpLoading(true);
+    setSignUpError("");
+
     if (!emailInput || !passwordInput) {
-      loadingHandle(false);
+      setIsSignUpLoading(false);
       return;
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, emailInput, passwordInput);
-      cookies.set("auth-token", auth.currentUser.refreshToken);
-      setAuth(true);
-      loadingHandle(false);
+      let userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        emailInput,
+        passwordInput
+      );
+      console.log(userCredentials.user.uid);
+      // cookies.set("auth-token", userCredentials.user.accessToken);
+      dispatch(uiActions.getAuthUser({authUser: userCredentials.user.uid}))
+      setIsSignUpLoading(false);
       emailInputHandle("");
       passwordInputHandle("");
       navigate("/enter-room");
     } catch (err) {
-      console.error(err);
-      setCreateRoomError("Error: Failed to create new account!");
-      loadingHandle(false);
+      console.error(err.message);
+      let errorCode = err.code;
+      // let errorMessage = err.message;
+      setSignUpError(`${errorCode}`);
+      setIsSignUpLoading(false);
+      return;
     }
   };
 
   const formHandler = (e) => {
     e.preventDefault();
 
-    setCreateRoomError(false)
+    // setCreateRoomError(false)
 
     if (!isPasswordValid || !isEmailValid) {
       setValidateForm(false);
       return;
     }
 
-    signinDispezoHandler(
+    createDispezoAccountHandler(
       emailInput,
       emailInputHandle,
       passwordInput,
-      passwordInputHandle,
+      passwordInputHandle
     );
   };
 
@@ -106,54 +111,55 @@ const SignUpForm = () => {
   );
 
   return (
+   
+      <form
+        className="flex flex-col justify-between px-7 bg-mildWhite p-6"
+        onSubmit={formHandler}
+      >
+        <h2 className={headerStyle}>Create a new Dispezo Account</h2>
+        <Input
+          label="Email"
+          inputFor="user-email"
+          input={{
+            id: "user-email",
+            type: "email",
+            name: "useremail",
+            onBlur: emailTouchHandle,
+            value: emailInput,
+            onChange: (e) => {
+              emailInputHandle(e.target.value);
+            },
+          }}
+        />
+        {!validateForm && !isEmailValid && (
+          <p className="text-sm font-semibold">Please enter a valid email!</p>
+        )}
+        <Input
+          label="Password"
+          inputFor="user-password"
+          input={{
+            id: "user-password",
+            type: "password",
+            name: "username",
+            onBlur: passwordTouchHandle,
+            value: passwordInput,
+            onChange: (e) => {
+              passwordInputHandle(e.target.value);
+            },
+          }}
+        />
+        {!isPasswordValid && !validateForm && passwordError}
 
-    <form
-      className="flex flex-col justify-between px-7 bg-mildWhite p-6"
-      onSubmit={formHandler}
-    >
-      <h2 className={headerStyle}>Create a new Dispezo Account</h2>
-      <Input
-        label="Email"
-        inputFor="user-email"
-        input={{
-          id: "user-email",
-          type: "email",
-          name: "useremail",
-          onBlur: emailTouchHandle,
-          value: emailInput,
-          onChange: (e) => {
-            emailInputHandle(e.target.value);
-          },
-        }}
-      />
-      {!validateForm && !isEmailValid && (
-        <p className="text-sm font-semibold">Please enter a valid email!</p>
-      )}
-      <Input
-        label="Password"
-        inputFor="user-password"
-        input={{
-          id: "user-password",
-          type: "password",
-          name: "username",
-          onBlur: passwordTouchHandle,
-          value: passwordInput,
-          onChange: (e) => {
-            passwordInputHandle(e.target.value);
-          },
-        }}
-      />
-      {!isPasswordValid && !validateForm && passwordError}
+        <Button text="Signup" type="submit" styles={`${btnStyles} mt-8`} />
+        {isSignUpLoading && !signUpError && <h2 className="text-main text-center mt-3">Loading...</h2>}
 
-      <Button text="Signup" type="submit" styles={`${btnStyles} mt-8`} />
-      {isLoading && !createRoomError && <h2 className="text-main text-center mt-3">Loading...</h2>}
-
-      {createRoomError && !inputAuth && (
-        <h2 className="text-main text-center mt-3 text-black font-semibold">
-          Failed to Create Accout
+      {signUpError &&  (
+        <h2 className="flex flex-wrap text-main text-center mt-3 mx-auto text-black font-semibold">
+          {signUpError}
         </h2>
       )}
-    </form>
+      
+      </form>
   );
 };
 

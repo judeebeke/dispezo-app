@@ -1,10 +1,19 @@
+import {useEffect} from "react"
+import { useSelector } from "react-redux";
 import Button from "./UI/Button";
 import dispezoImage from '../assets/assest-image.png';
 import { btnStyles } from "../style";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EnterRoomPage = () => {
+  const currentUser = useSelector(state => state.ui.user)
+  const navigate = useNavigate();
 
+  useEffect(()=> {
+    if(currentUser === null) {
+      navigate('/')
+    }
+  })
   const  EnterRoomOption = <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-4">
   <Button
     styles={btnStyles}> <Link to="/enter-room/createRoom">Create Room</Link></Button>
@@ -26,5 +35,4 @@ const EnterRoomPage = () => {
     </section>
   );
 };
-
 export default EnterRoomPage;

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState} from "react";
+import { Outlet} from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import GoogleSignInButton from "./forms/GoogleSignInButton";
 
@@ -9,15 +10,14 @@ import { btnStyles } from "../style";
 
 const Auth = () => {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
-
   const getCurrentPathHandler = () => {
     setCurrentPath(window.location.pathname);
   };
 
+
   return (
     <section className="flex flex-col items-center app-container h-full pt-7 pb-5 gap-y-7">
       <img src={dispezoLogo} alt="Dispezo PNG" className="w-2/4 md:w-56" />
-
       <>
         {(currentPath === "/login" || currentPath === "/") && (
           <Button
@@ -40,8 +40,8 @@ const Auth = () => {
           </Button>
         )}
       </> 
-
-      <Outlet />
+        <Outlet />
+        <h2 className='font-semibold leading-none'>Or</h2>
       <GoogleSignInButton />
     </section>
   );

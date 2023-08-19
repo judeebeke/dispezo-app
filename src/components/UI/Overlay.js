@@ -1,20 +1,19 @@
-import React, {useContext} from 'react';
+import { uiActions } from '../../store/ui-slice';
 import classes from './Overlay.module.css';
-import CartContext from "../../store/cart-context"
+import {  useDispatch, useSelector } from "react-redux";
 
 
 const Overlay = (props) => {
-    const { isMenu } = useContext(CartContext)
+  const dispatch = useDispatch();
+  const isMenuOpen = useSelector(state => state.ui.isMenuOpen)
 
     const menuHandle = () => {
-       props.onRun(prev => {
-           return ( !prev )
-       })
+       dispatch(uiActions.setMenuOpen());
      };
 
   return (
     <>
-        <div className={isMenu ? classes.overlay : classes.removeOverlay} onClick={menuHandle}></div>
+        <div className={`${classes.overlay} ${!isMenuOpen && "hidden"}`} onClick={menuHandle}></div>
       {props.children}
     </>
   )
