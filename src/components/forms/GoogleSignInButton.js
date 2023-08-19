@@ -45,10 +45,10 @@ const GoogleSignInButton = () => {
   );
 
   const googleSignInBtnStyles =
-    "hidden md:flex bg-mildWhite text-main transition-all ease-in shadow-md font-semibold tracking-wide hover:bg-lightMain hover:text-mildWhite";
+    "bg-mildWhite text-main transition-all ease-in shadow-md font-semibold tracking-wide hover:bg-lightMain hover:text-mildWhite";
 
   return (
-    <div>
+    <div className="hidden md:flex">
       <Button
         type="submit"
         onSignIn={signinWithGoogle}
