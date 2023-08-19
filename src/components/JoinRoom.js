@@ -56,7 +56,11 @@ const JoinRoom = () => {
           roomName: getRequestedChat.roomName,
           roomPasscode: getRequestedChat.roomPasscode,
           roomTrackingId: getRequestedChat.roomTrackingId,
-        } 
+        }
+
+        if(!getRequestedChat) {
+          setLoadingHandle(false);
+        }
 
       dispatch(uiActions.getEnteredRoom({enteredRoomStats: requestedRoomStats}))
 
@@ -104,6 +108,9 @@ const JoinRoom = () => {
           type: "text",
           name: "roomid",
           value: roomNameInput,
+          onkeydown: () => {
+            setLoadingHandle(false);
+          },
           onChange: (e) => {
             roomNameInputHandle(e.target.value);
           },
@@ -120,6 +127,9 @@ const JoinRoom = () => {
           type: "password",
           name: "username",
           value: passcodeInput,
+          onkeydown: () => {
+            setLoadingHandle(false);
+          },
           onChange: (e) => {
             passcodeInputHandle(e.target.value);
           },

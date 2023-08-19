@@ -2,39 +2,37 @@ import React, { useState } from "react";
 import { IconContext } from "react-icons";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import { signInWithPopup } from "firebase/auth";
+import {
+  signInWithPopup,
+} from "firebase/auth";
 import { auth, Provider } from "../../config/firebase-config";
 
 import Button from "../UI/Button";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../store/ui-slice";
 
 const GoogleSignInButton = () => {
   const navigate = useNavigate();
-  const [googleSigninError, setGoogleSigninError] = useState(null)
-  const [isGoogleSigninLoading, setIsGoogleSigninLoading] = useState(false)
+  const dispatch = useDispatch();
+  const [googleSigninError, setGoogleSigninError] = useState(null);
+  const [isGoogleSigninLoading, setIsGoogleSigninLoading] = useState(false);
 
- const signinWithGoogle = async () => {
+  const signinWithGoogle = async () => {
     setIsGoogleSigninLoading(true);
     setGoogleSigninError(null);
-    setIsGoogleSigninLoading(true);
 
     try {
-      const response = await signInWithPopup(auth, Provider);
-      console.log(response.user);
-      if (!response.user) {
-  
-        throw new Error("Failed to Login");
-      }
+      let result = await signInWithPopup(auth, Provider);
 
-      cookies.set("auth-token", auth.currentUser.refreshToken);
+      dispatch(uiActions.getAuthUser({authUser: result.user.uid}))
       setIsGoogleSigninLoading(false);
       navigate("/enter-room");
-      
     } catch (err) {
-      setGoogleSigninError("Failed to login!");
+      setGoogleSigninError(err.code);
+      console.log(err.message);
       setIsGoogleSigninLoading(false);
     }
+
   };
 
   const loginWithGoogleBtn = (
@@ -47,7 +45,7 @@ const GoogleSignInButton = () => {
   );
 
   const googleSignInBtnStyles =
-    "bg-mildWhite text-main transition-all ease-in shadow-md font-semibold tracking-wide hover:bg-lightMain hover:text-mildWhite";
+    "hidden md:flex bg-mildWhite text-main transition-all ease-in shadow-md font-semibold tracking-wide hover:bg-lightMain hover:text-mildWhite";
 
   return (
     <div>
@@ -58,12 +56,12 @@ const GoogleSignInButton = () => {
       >
         {loginWithGoogleBtn}
       </Button>
-      {isGoogleSigninLoading && !googleSigninError && (
+      {isGoogleSigninLoading && (
         <h2 className="text-main text-center mt-3">Loading...</h2>
       )}
       {googleSigninError && (
         <h2 className="text-main text-center mt-3 text-black font-semibold">
-          Failed to login!
+          {googleSigninError}
         </h2>
       )}
     </div>

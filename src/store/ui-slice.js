@@ -5,7 +5,7 @@ const uiSlice = createSlice({
     initialState: {
         user: null,
         currentRoom: {},
-        isMenuOpen: true,
+        isMenuOpen: false,
     },
     reducers: {
         getAuthUser (state, action) {

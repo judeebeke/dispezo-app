@@ -136,7 +136,7 @@ const ChatSettings = () => {
               id="roomData"
               readOnly
               className="p-5 w-full h-auto border border-main shadow-md outline-lightMain transition-opacity duration-300 ease-in focus:border-lightMain"
-              rows={3}
+              rows={2}
               value={`Room Id: ${roomStats.roomId}\nRoom Passcode: ${roomStats.roomPasscode}`}
             />
           </div>

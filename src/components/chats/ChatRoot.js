@@ -13,6 +13,8 @@ const ChatRoot = () => {
 
   const navigate = useNavigate();
 
+  console.log(isMenuOpen)
+
   useEffect(()=> {
     if(currentUser === null) {
       navigate('/')
@@ -29,7 +31,7 @@ const ChatRoot = () => {
     <ChatMenu
       deviceStyle={`absolute top-0 ${
         !isMenuOpen ? "hidden -right-full" : "flex right-0"
-      } bg-mildWhite flex-col justify-start items-center h-screen gap-y-4 pt-4 w-8/12 z-50 md:hidden`}
+      } bg-mildWhite flex-col flex-wrap justify-center items-center h-screen gap-y-4 w-8/12 z-50 md:hidden`}
     />
   );
 

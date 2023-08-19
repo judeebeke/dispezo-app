@@ -31,6 +31,23 @@ body #root {
   overflow: hidden;
 }
 
+/* For WebKit Browsers */
+/* Hide the scrollbar track */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #f12b67;
+  border-radius: 10px;
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+  background: #f3b9cb;
+}
+
 .react-icons-style {
   font-size: 1.3rem;
   margin-left: 1.1px;

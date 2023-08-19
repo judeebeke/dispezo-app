@@ -4,16 +4,13 @@ import { useDispatch } from "react-redux";
 import useInputHook from "../customHooks/useInputHook";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import { btnStyles } from "../../style";
 import { headerStyle } from "../../style";
 import { uiActions } from "../../store/ui-slice";
-// import Cookies from "universal-cookie";
-
-// const cookies = new Cookies();
 
 const SignInForm = (props) => {
   const [validateForm, setValidateForm] = useState(true);
@@ -56,8 +53,8 @@ const SignInForm = (props) => {
     }
     try {
       let userCredentials = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
-      // cookies.set("auth-token", auth.currentUser.refreshToken);
       dispatch(uiActions.getAuthUser({authUser: userCredentials.user.uid}))
+
       setIsSignUpLoading(false);
       emailInputHandle("");
       passwordInputHandle("");
@@ -85,6 +82,8 @@ const SignInForm = (props) => {
       passwordValid
     );
   };
+
+ 
 
   const passwordError = (
     <>
@@ -152,8 +151,8 @@ const SignInForm = (props) => {
           {signUpError}
         </p>
       )}
-      <p className="flex flex-wrap text-blackis text-sm text-center mt-3 mx-auto text-black font-semibold">
-          If you forgot your password click,<a href="/" className="text-main underline"> reset password</a>
+      <p className="flex flex-wrap text-blackis text-xs text-center mt-3 mx-auto text-black font-semibold">
+          If you forgot your password click,<Link to="/reset-password" className="text-main underline"> reset password</Link>
         </p>
       </form>
   );

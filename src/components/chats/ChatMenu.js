@@ -2,7 +2,8 @@ import { IconContext } from "react-icons";
 import {AiOutlineClose} from 'react-icons/ai'
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
-import { useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom';
+import dispezoLogo from "../../assets/dispezo-logo.png";
 
 import Button from "../UI/Button";
 import { btnStyles } from "../../style";
@@ -44,12 +45,16 @@ const ChatMenu = ({deviceStyle}) => {
           </IconContext.Provider>
         </button>
 
+        <img src={dispezoLogo} className="flex w-20 h-auto absolute top-3 left-4 md:hidden" alt="DISPEZO ICON" />
+     
        {auth.currentUser.uid === isRoomCreator.roomTrackingId && <Button styles={settingsBtnStyle} text="Settings" onSignIn={goToSettingsHandler} />}
 
         <Button styles={btnStyles}  text="Change Room" onSignIn={()=>{navigate("/enter-room")}} />
 
         <Button styles={btnStyles} text="Logout" onSignIn={logOutHandler} />
-        <p className="md:text-mildWhite">{auth.currentUser.email}</p>
+        <p className="break-words md:text-mildWhite">{auth.currentUser.email}</p>
+
+        <p className="mt-4 text-center md:text-mildWhite text-xs break-words w-full px-3"><strong >Note:</strong> Get created room id and passcode in the <em className="font-bold">'Settings' </em> {" "} page, and store somewhere easily accessible and safe.</p>
     </section>
   )
 }

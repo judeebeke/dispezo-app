@@ -14,6 +14,7 @@ import ChatRoom from "./components/chats/ChatRoom";
 import ChatErrorPage from "./components/chats/ChatErrorPage";
 import ChatRoot from "./components/chats/ChatRoot";
 import ChatSettings from "./components/chats/ChatSettings";
+import ResetPassword from "./components/forms/ResetPassword";
 
 const App = () => {
   // const {isAuth} = useContext(CartContext);
@@ -35,6 +36,10 @@ const App = () => {
             {
               path: "/login",
               element: <SignInForm />,
+            },
+            {
+              path: "/reset-password",
+              element: <ResetPassword />,
             },
           ],
         },

@@ -41,7 +41,7 @@ const Auth = () => {
         )}
       </> 
         <Outlet />
-        <h2 className='font-semibold leading-none'>Or</h2>
+        <h2 className='hidden md:flex font-semibold leading-none'>Or</h2>
       <GoogleSignInButton />
     </section>
   );
