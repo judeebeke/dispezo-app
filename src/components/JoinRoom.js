@@ -96,7 +96,6 @@ const JoinRoom = () => {
 
   return (
     <Form
-    method='post'
       className="flex flex-col justify-between px-10 bg-mildWhite p-6"
       onSubmit={joinRoomHandler}
     >
@@ -108,11 +107,9 @@ const JoinRoom = () => {
           type: "text",
           name: "roomid",
           value: roomNameInput,
-          onkeydown: () => {
-            setLoadingHandle(false);
-          },
           onChange: (e) => {
             roomNameInputHandle(e.target.value);
+            setLoadingHandle(false);
           },
           onBlur: roomInputTouched,
         }}
@@ -127,11 +124,9 @@ const JoinRoom = () => {
           type: "password",
           name: "username",
           value: passcodeInput,
-          onkeydown: () => {
-            setLoadingHandle(false);
-          },
           onChange: (e) => {
             passcodeInputHandle(e.target.value);
+            setLoadingHandle(false);
           },
           onBlur: passcodeInputTouched,
         }}
@@ -150,13 +145,3 @@ const JoinRoom = () => {
 
 export default JoinRoom;
 
-// export const action = async({request, params}) => {
-//   const getRoomsListColRef = collection(db, "rooms");
-
-//   const response = await getDocs(getRoomsListColRef);
-
-
-//     const getRoomInfo = response.docs.map((doc) => {
-//       return { ...doc.data(), id: doc.id };
-//     });
-// }

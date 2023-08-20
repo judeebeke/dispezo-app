@@ -10,10 +10,11 @@ import { btnStyles } from "../style";
 
 const Auth = () => {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  
   const getCurrentPathHandler = () => {
     setCurrentPath(window.location.pathname);
   };
-
+  
 
   return (
     <section className="flex flex-col items-center app-container h-full pt-7 pb-5 gap-y-7">
@@ -28,7 +29,6 @@ const Auth = () => {
             <Link to="/signup">Create Account if you do not have one</Link>
           </Button>
         )}
-       {currentPath === "/signup" || currentPath === "/login" ? "" : <h2 className='font-semibold'>Or</h2>}
 
         {(currentPath === "/signup" || currentPath === "/") && (
           <Button

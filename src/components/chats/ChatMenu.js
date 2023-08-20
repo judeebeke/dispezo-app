@@ -54,7 +54,7 @@ const ChatMenu = ({deviceStyle}) => {
         <Button styles={btnStyles} text="Logout" onSignIn={logOutHandler} />
         <p className="break-words md:text-mildWhite">{auth.currentUser.email}</p>
 
-        <p className="mt-4 text-center md:text-mildWhite text-xs break-words w-full px-3"><strong >Note:</strong> Get created room id and passcode in the <em className="font-bold">'Settings' </em> {" "} page, and store somewhere easily accessible and safe.</p>
+       {auth.currentUser.uid === isRoomCreator.roomTrackingId && <p className="mt-4 text-center md:text-mildWhite text-xs break-words w-full px-3"><strong >Note:</strong> Get created room id and passcode in the <em className="font-bold">'Settings' </em> {" "} page, and store somewhere easily accessible and safe.</p>}
     </section>
   )
 }

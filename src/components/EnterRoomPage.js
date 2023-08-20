@@ -14,7 +14,7 @@ const EnterRoomPage = () => {
       navigate('/')
     }
   }, [currentUser, navigate])
-  const  EnterRoomOption = <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-4">
+  const  EnterRoomOption = <div className="flex flex-col gap-y-7 md:flex-row md:gap-x-5">
   <Button
     styles={btnStyles}> <Link to="/enter-room/createRoom">Create Room</Link></Button>
     <Button
@@ -22,7 +22,7 @@ const EnterRoomPage = () => {
     </div>
 
  return (
-    <section className="flex flex-col items-center free-design-cont mt-24 gap-y-10">
+    <section className="flex flex-col items-center free-design-cont mt-10 gap-y-5">
         <img
           src={dispezoImage}
           alt="Dispezo UI"

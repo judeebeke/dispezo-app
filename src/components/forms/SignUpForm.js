@@ -15,7 +15,7 @@ const SignUpForm = () => {
   const [validateForm, setValidateForm] = useState(true);
   const [signUpError, setSignUpError] = useState("");
   const [isSignUpLoading, setIsSignUpLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -56,7 +56,7 @@ const SignUpForm = () => {
         emailInput,
         passwordInput
       );
-      dispatch(uiActions.getAuthUser({authUser: userCredentials.user.uid}))
+      dispatch(uiActions.getAuthUser({ authUser: userCredentials.user.uid }));
       setIsSignUpLoading(false);
       emailInputHandle("");
       passwordInputHandle("");
@@ -71,8 +71,6 @@ const SignUpForm = () => {
 
   const formHandler = (e) => {
     e.preventDefault();
-
-    // setCreateRoomError(false)
 
     if (!isPasswordValid || !isEmailValid) {
       setValidateForm(false);
@@ -104,7 +102,7 @@ const SignUpForm = () => {
   );
 
   return (
-   
+    <>
       <form
         className="flex flex-col justify-between px-7 bg-mildWhite p-6"
         onSubmit={formHandler}
@@ -144,15 +142,16 @@ const SignUpForm = () => {
         {!isPasswordValid && !validateForm && passwordError}
 
         <Button text="Signup" type="submit" styles={`${btnStyles} mt-8`} />
-        {isSignUpLoading && !signUpError && <h2 className="text-main text-center mt-3">Loading...</h2>}
-
-      {signUpError &&  (
-        <h2 className="flex flex-wrap text-main text-center mt-3 mx-auto text-black font-semibold">
-          {signUpError}
-        </h2>
-      )}
-      
+        {isSignUpLoading && !signUpError && (
+          <h2 className="text-main text-center mt-3">Loading...</h2>
+        )}
+        {signUpError && (
+          <h2 className="flex flex-wrap text-main text-center mt-3 mx-auto text-black font-semibold">
+            {signUpError}
+          </h2>
+        )}
       </form>
+    </>
   );
 };
 

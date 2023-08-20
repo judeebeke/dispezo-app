@@ -71,7 +71,6 @@ const CreateRoom = () => {
         roomPasscode: passcodeInput,
         roomTrackingId: auth.currentUser.uid,
       }
-
       dispatch(uiActions.getEnteredRoom({enteredRoomStats: newRoomStats }))
 
     try {
@@ -96,7 +95,6 @@ const CreateRoom = () => {
         <li>First Charater must be a letter</li>
         <li>Must contain an Uppercase and a Lowercase letter</li>
         <li>Must contain a number</li>
-        <li>Must contain a non-alphanumeric character</li>
         <li>Password must not be less than 7</li>
       </ul>
     </>

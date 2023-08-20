@@ -7,31 +7,45 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import { btnStyles } from "../../style";
 import { headerStyle } from "../../style";
+import { useNavigate, Link } from "react-router-dom";
 
 const ResetPassword = () => {
-  const [resetError, setResetError] = useState("");
-  const [isSignUpLoading, setIsSignUpLoading] = useState(false);
+  const [resetError, setResetError] = useState(null);
+  const [resetSuccess, setResetSuccess] = useState(null);
+  const [isResetLoading, setIsResetLoading] = useState(false);
 
   const mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    const navigate = useNavigate();
 
   const {
     userInput: emailInput,
     userInputHandler: emailInputHandle,
     isInputValid: isEmailValid,
     inputTouchHandler: emailTouchHandle,
-    isFormValid: emailValid,
+    isInputTouched: isEmailTouched,
   } = useInputHook((value) => value.match(mailformat) !== null);
 
-  const resetPasswordHandler = async () => {
+  const resetPasswordHandler = async (event) => {
+    event.preventDefault();
+    setResetError(null);
+    setIsResetLoading(true);
+
     if (!emailInput) {
-      setIsSignUpLoading(false);
+      setIsResetLoading(false);
       return;
     }
+
     try {
       await sendPasswordResetEmail(auth, emailInput);
+      setResetSuccess("Successfully sent reset password link!");
+      setIsResetLoading(false);
+
+        setTimeout(() => {
+            navigate('/login')
+        }, 1500)
     } catch (error) {
       setResetError(error.code);
-      setIsSignUpLoading(false);
+      setIsResetLoading(false);
       return;
     }
   };
@@ -53,16 +67,17 @@ const ResetPassword = () => {
           value: emailInput,
           onChange: (e) => {
             emailInputHandle(e.target.value);
-            resetError("");
+            setResetError("");
           },
         }}
       />
-      {!emailValid && !isEmailValid && (
+      {isEmailTouched && !isEmailValid ? (
         <p className="w-full font-medium mb-2">Please enter a valid email!</p>
-      )}
+      ) : ""}
 
-      <Button text="Login" type="submit" styles={`${btnStyles} mt-8`} />
-      {isSignUpLoading && (
+      <Button text="Reset" type="submit" styles={`${btnStyles} mt-8`} />
+      
+      {isResetLoading && (
         <h2 className="text-main text-center mt-3">Loading...</h2>
       )}
 
@@ -71,6 +86,14 @@ const ResetPassword = () => {
           {resetError}
         </p>
       )}
+      {resetSuccess && (
+        <p className="flex flex-wrap text-md text-main text-center mt-3 mx-auto text-black font-semibold">
+          {resetSuccess}
+        </p>
+      )}
+       <p className="flex flex-wrap text-blackis text-xs text-center mt-3 mx-auto text-black font-semibold">
+          If you do not have an account click,<Link to="/signup" className="text-main underline"> create account</Link>
+        </p>
     </form>
   );
 };

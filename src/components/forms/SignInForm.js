@@ -16,7 +16,7 @@ const SignInForm = (props) => {
   const [validateForm, setValidateForm] = useState(true);
   const [signUpError, setSignUpError] = useState("");
   const [isSignUpLoading, setIsSignUpLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -52,8 +52,12 @@ const SignInForm = (props) => {
       return;
     }
     try {
-      let userCredentials = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
-      dispatch(uiActions.getAuthUser({authUser: userCredentials.user.uid}))
+      let userCredentials = await signInWithEmailAndPassword(
+        auth,
+        emailInput,
+        passwordInput
+      );
+      dispatch(uiActions.getAuthUser({ authUser: userCredentials.user.uid }));
 
       setIsSignUpLoading(false);
       emailInputHandle("");
@@ -83,8 +87,6 @@ const SignInForm = (props) => {
     );
   };
 
- 
-
   const passwordError = (
     <>
       {" "}
@@ -102,6 +104,7 @@ const SignInForm = (props) => {
   );
 
   return (
+    <>
       <form
         className="flex flex-col justify-between px-7 bg-mildWhite p-6"
         onSubmit={formHandler}
@@ -144,17 +147,24 @@ const SignInForm = (props) => {
         {!isPasswordValid && !validateForm && passwordError}
 
         <Button text="Login" type="submit" styles={`${btnStyles} mt-8`} />
-        {isSignUpLoading && !signUpError && <h2 className="text-main text-center mt-3">Loading...</h2>}
+        {isSignUpLoading && !signUpError && (
+          <h2 className="text-main text-center mt-3">Loading...</h2>
+        )}
 
-      {signUpError &&  (
-        <p className="flex flex-wrap text-md text-main text-center mt-3 mx-auto text-black font-semibold">
-          {signUpError}
-        </p>
-      )}
-      <p className="flex flex-wrap text-blackis text-xs text-center mt-3 mx-auto text-black font-semibold">
-          If you forgot your password click,<Link to="/reset-password" className="text-main underline"> reset password</Link>
+        {signUpError && (
+          <p className="flex flex-wrap text-md text-main text-center mt-3 mx-auto text-black font-semibold">
+            {signUpError}
+          </p>
+        )}
+        <p className="flex flex-wrap text-blackis text-xs text-center mt-3 mx-auto text-black font-semibold">
+          If you forgot your password click,
+          <Link to="/reset-password" className="text-main underline">
+            {" "}
+            reset password
+          </Link>
         </p>
       </form>
+    </>
   );
 };
 

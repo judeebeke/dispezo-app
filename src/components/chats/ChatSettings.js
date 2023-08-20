@@ -84,7 +84,7 @@ const ChatSettings = () => {
         onSignIn={deleteAllChatsHandler}
       />
       {onDeleteChat && (
-        <p className="text-mildWhite bg-main mt-4 w-auto py-3 animate-bounce duration-300 ease-linear rounded-md">
+        <p className="text-mildWhite bg-main mt-4 w-auto py-3 px-3 animate-bounce duration-300 ease-linear rounded-md">
           Successfully Deleted All Chats on {roomStats.roomName}
         </p>
       )}
