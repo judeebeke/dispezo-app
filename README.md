@@ -48,8 +48,8 @@ Demo: https://dispezo.vercel.app;
 
 ## Screenshots
 
-!Screenshot 1(src/assets/readme-display1.PNG)
-!Screenshot 2(src/assets/readme-display2.PNG)
+![Screenshot 1](src/assets/readme-display2.PNG)
+![Screenshot 2](src/assets/readme-display1.PNG)
 
 ## Contact
 
