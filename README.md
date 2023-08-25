@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Dispezo Chat App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Mini Chat App! This application allows users to engage in real-time text-based conversations with each other.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Description](#description)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Demo](#demo)
+- [Screenshots](#screenshots)
+- [Contact](#contact)
 
-### `npm start`
+## Description
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The Mini Chat App is a simple and lightweight chat application built using React, Tailwind CSS, and Firebase. It demonstrates real-time messaging functionality and provides an intuitive user interface. One of its core features is the ability to easily dispose of chats.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- Real-time Messaging: Engage in real-time text-based conversations.
+- User Authentication: Users can sign in using their Google accounts or using an Email and Password.
+- Responsive Design: The app is designed to work seamlessly on various devices and screen sizes.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
 
-### `npm run build`
+- React: Frontend library for building user interfaces.
+- Tailwind CSS: Utility-first CSS framework for styling.
+- Firebase Firestore: Real-time cloud database for storing messages and user data.
+- Firebase Authentication: For user authentication using Google accounts.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone this repository: `git clone https://github.com/judeebeke/dispezo-app.git`
+2. Navigate to the project directory: `cd dispezo-app`
+3. Install dependencies: `npm install`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Usage
 
-### `npm run eject`
+1. Set up a Firebase project and enable Firestore and Google Authentication.
+2. Add your Firebase configuration details in the appropriate files.
+3. Start the development server: `npm run dev`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Demo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Demo: https://dispezo.vercel.app;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Screenshots
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+!Screenshot 1(src/assets/readme-display1.PNG)
+!Screenshot 2(src/assets/readme-display2.PNG)
 
-## Learn More
+## Contact
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Website: https://ebekesjude.vercel.app
+- LinkedIn: https://www.linkedin.com/in/jude-ebeke-b67813223
+- Facebook: https://www.facebook.com/profile.php?id=100070522303715
+- Email: judeebekes67@gmail.com
+- Twitter/X: https://mobile.twitter.com/techie_genie
